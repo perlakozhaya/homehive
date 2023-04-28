@@ -125,6 +125,10 @@ a:hover {
     outline: 2px solid var(--hover-color);
 }
 
+.fa-solid {
+    color: var(--accent-color);
+}
+
 /* Contact Page */
 .contact-section {
     background-image: url('//localhost/property-rental-listing/assets/img/contact-bg-img.jpg');
