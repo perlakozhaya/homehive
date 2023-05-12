@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,6 +18,33 @@
 </head>
 
 <body>
+
+
+<header>
+  <div class="logo">
+  <input type="image" src="assets/logo/logo.png" alt="Submit" width="130" height="48">
+  </div>
+
+  <button class="nav-button">HOME</button>
+  <select class="nav-select">
+    <option value="option1">TYPE</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+  </select>
+  <button class="nav-button">CONTACT</button>
+
+  <a>
+  <button class="custom-button">
+        <span>Sign In</span>
+  </button>
+  </a>
+</header>
+
+
+
+    <footer>
+
+    </footer>
     <i class="fa-solid fa-chevron-left"></i>
     <i class="fa-solid fa-chevron-right"></i>
 </body>

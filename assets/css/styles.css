@@ -147,6 +147,7 @@ a:hover {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: -1;
+    /* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('//localhost/property-rental-listing/assets/img/header-image.jpg'); */
 }
 
 .contact-info * {
@@ -189,3 +190,242 @@ a.button:hover {
 .dashboard-header div.column-2 {
     text-align: right;
 }
+
+
+/*Header*/
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+  
+  .logo {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .nav-button,
+  .nav-select,
+  .nav-link {
+    margin-left: 10px;
+  }
+  
+  .nav-link {
+    margin-left: auto;
+    text-decoration: none;
+    color: #333;
+  }
+
+/*Sign In Button Header*/
+.custom-button {
+    background: transparent;
+    position: relative;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid #EAA534;
+    border-radius: 25px;
+    outline: none;
+    overflow: hidden;
+    color: #3A3333;
+    transition: color 0.3s 0.1s ease-out;
+    text-align: center;
+  }
+
+  .custom-button span {
+    margin: 10px;
+  }
+
+  .custom-button::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    content: '';
+    border-radius: 50%;
+    display: block;
+    width: 20em;
+    height: 20em;
+    left: -5em;
+    text-align: center;
+    transition: box-shadow 0.5s ease-out;
+    z-index: -1;
+  }
+
+  .custom-button:hover {
+    color: #3A3333;
+    border: 1px solid #3A3333;
+  }
+
+  .custom-button:hover::before {
+    box-shadow: inset 0 0 0 10em #EAA534;
+  }
+  
+
+/*search*/
+
+.search {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('//localhost/property-rental-listing/assets/img/header-image.jpg');
+    background-size:cover;
+    position: relative;
+    padding: 10rem 0rem;
+    background-position: top;
+}
+
+.container-s {
+    text-align: center;
+    padding-top: 5px;
+}
+
+/*Search Bar*/
+* {
+    outline: none;
+  }
+  
+  .tb {
+    display:table;
+    width: 100%;
+  }
+  
+  .td {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  
+ .td input,
+ .td button {
+    color: var(--primary-color);
+    font-weight: 400;
+    font-family: 'Raleway', sans-serif;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: transparent;
+  }
+  
+  #cover {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 1000px;
+    padding: 35px;
+    margin: -83px auto 0 auto;
+    background-color:#ffffff;
+    border-radius: 20px;
+    box-shadow: 0 0px 15px #EAA534, 0 0 0 10px #ffffff;
+    transform: scale(0.6);
+  }
+    
+  .td input[type="text"] {
+    width: 100%;
+    height: 90%;
+    font-size: 35px;
+    line-height: 1;
+  }
+  
+  .td input[type="text"]::placeholder {
+    color: var(--primary-color);
+  }
+  
+  #s-cover {
+    width: 1px;
+    padding-left: 35px;
+  }
+  
+  .td button {
+    position: relative;
+    display: block;
+    width: 84px;
+    height: 9px;
+    cursor: pointer;
+  }
+  
+  #s-circle {
+    position: relative;
+    top: -35px;
+    left: 12px;
+    width: 50px;
+    height: 50px;
+    margin-top: 0;
+    border-width: 15px;
+    border: 10px solid var(--primary-color);
+    background-color: transparent;
+    border-radius: 50%;
+    transition: 0.5s ease all;
+  }
+  
+  button span {
+    position: absolute;
+    top: 55px;
+    left: 70px;
+    display: block;
+    width: 50px;
+    height: 10px;
+    background-color: transparent;
+    border-radius: 10px;
+    transform: rotateZ(52deg);
+    transition: 0.5s ease all;
+  }
+  
+  button span:before,
+  button span:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: -50px;
+    right: 0px;
+    width: 45px;
+    height: 10px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    transform: rotateZ(0);
+    transition: 0.5s ease all;
+  }
+  
+  #s-cover:hover #s-circle {
+    top: -1px;
+    width: 67px;
+    height: 10px;
+    border-width: 0;
+    background-color: var(--primary-color);
+    border-radius: 20px;
+  }
+  
+  #s-cover:hover span {
+    top: 80%;
+    left: 106.2px;
+    width: 25px;
+    margin-top: -9px;
+    transform: rotateZ(0);
+  }
+  
+  #s-cover:hover button span:before {
+    bottom: 11px;
+    transform: rotateZ(52deg);
+  }
+  
+  #s-cover:hover button span:after {
+    bottom: -11px;
+    transform: rotateZ(-52deg);
+  }
+  #s-cover:hover button span:before,
+  #s-cover:hover button span:after {
+    right: -6px;
+    width: 40px;
+    background-color: var(--primary-color);
+  }
+  
