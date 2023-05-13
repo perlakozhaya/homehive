@@ -1,3 +1,5 @@
+<?php include('header.php'); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,34 +23,6 @@
 </head>
 
 <body>
-  <header class="main-header multi-column">
-    <div class="logo column-1">
-      <a href="//localhost/property-rental-listing">
-        <img src="//localhost/property-rental-listing/assets/img/logo.svg" alt="HomeHive Logo" width="130" height="48">
-      </a>
-    </div>
-
-    <nav class="navbar column-2">
-      <a href="//localhost/property-rental-listing" class="nav-link">Home</a>
-      <div class="dropdown">
-        <button class="dropdown-button nav-link">Types 
-          <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
-        </button>
-        <div class="dropdown-menu">
-          <a href="#">House</a>
-          <a href="#">Bungalow</a>
-          <a href="#">Apartment</a>
-          <a href="#">Studio</a>
-        </div>
-      </div> 
-      <a href="//localhost/property-rental-listing/contact.php" class="nav-link">Contact</a> 
-    </nav>
-
-    <div class="column-3 header-button">
-      <a href="login.php" class="button">Sign in</a>
-    </div>
-  </header>
-
   <section class="hero-section">
     <div class="column-container">
       <h1 class="white">Find your perfect match with our rental properties</h1>
