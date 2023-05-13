@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <div class="column-container multi-column dashboard-header">
+    <div class="column-container multi-column header-button">
         <div class="column-1">
             <h3>Welcome, <span><?php echo 'admin' #$_SESSION['name'] ?></span>!</h3>
         </div>

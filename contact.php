@@ -19,9 +19,9 @@
 <body>
   <section class="contact-section">
     <div class="column-container multi-column">
-      <div class="column-1 contact-info">
-        <h2>Let's Get in Touch</h2>
-        <p>Our team is dedicated to providing exceptional customer service and support for all your rental needs.<br/>
+      <div class="column-1">
+        <h2 class="white">Let's Get in Touch</h2>
+        <p class="white">Our team is dedicated to providing exceptional customer service and support for all your rental needs.<br/>
           Whether you need help booking a rental or have feedback to share, we're here to help.<br/>
           Get in touch with us today and let us assist you in creating an unforgettable rental experience. 
         </p>
@@ -37,7 +37,7 @@
           <label for="message" hidden>Message:</label>
           <textarea id="message" name="message" placeholder="Your Text" required></textarea>
       
-          <button type="submit" class="button">Get in Touch</button>
+          <button type="submit" class="button white">Get in Touch</button>
         </form>
       </div>
     </div>

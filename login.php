@@ -21,7 +21,7 @@
         <form class="form-group" action="" method="post">
             <h3>Login Now</h3>
             <div class="form-control">
-                <input type="email" name="email" required placeholder="Enter your email">
+                <input type="text" name="username" required placeholder="Enter your username">
                 <input type="password" name="password" required placeholder="Enter your password">
             </div>
             <button type="submit" name="submit" class="button">Login Now</button>

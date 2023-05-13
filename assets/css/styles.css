@@ -6,12 +6,14 @@
     --secondary-color: #EAA534;
     --accent-color: #929497;
     --hover-color: #EFC356;
+    --background-color: #FFFFFF;
 }
 
 * {
     box-sizing: border-box;
     margin: 0; 
     padding: 0;
+    /* outline: 1px solid red; */
 }
 
 body {
@@ -27,7 +29,7 @@ p {
 
 h1 {
     font-size: 3.625rem;
-    font-weight: 400;
+    font-weight: 700;
 }
 
 h2 {
@@ -60,15 +62,15 @@ a:hover {
 }
 
 .column-container {
-    max-width: 1140px;
-    margin: auto;
-    padding: 10px;
+  max-width: 1140px;
+  margin: auto;
 }
 
 .multi-column {
-    display: flex;
-    column-gap: 10px;
-    align-items: center;
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 600px) {
@@ -78,24 +80,64 @@ a:hover {
 }
 
 .column-1, 
-.column-2 {
+.column-2,
+.column-3 {
     flex: 1;
 }
 
 .button {
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
-    border: none;
-    border-radius: 3.125rem;
-    padding: 0.625rem 1.5625rem;
-    text-align: center;
-    display: block;
-    font: 500 1.25rem 'Raleway', sans-serif;
-    cursor: pointer;
+  background: transparent;
+  position: relative;
+  padding: 0.625rem 1.5625rem;
+  display: block;
+  font: 500 1.25rem 'Raleway', sans-serif;
+  cursor: pointer;
+  border: 2px solid var(--secondary-color);
+  border-radius: 3.125rem;
+  overflow: hidden;
+  color: var(--primary-color);
+  transition: color 0.3s 0.1s ease-out;
+  text-align: center;
+  z-index: 1;
+}
+
+.button::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  content: '';
+  border-radius: 50%;
+  display: block;
+  width: 20em;
+  height: 20em;
+  left: -5em;
+  text-align: center;
+  transition: box-shadow 0.5s ease-out;
+  z-index: -1;
 }
 
 .button:hover {
-    background-color: var(--hover-color);
+  color: var(--primary-color);
+  border: 2px solid var(--secondary-color);
+}
+
+.button:hover::before {
+  box-shadow: inset 0 0 0 10em var(--secondary-color);
+}
+
+a.button {
+  display: inline-block;
+}
+
+a.button:hover {
+  text-decoration: none;
+}
+
+.header-button {
+  text-align: right;
 }
 
 .form-group input,
@@ -122,36 +164,162 @@ a:hover {
 }
 
 :focus {
-    outline: 2px solid var(--hover-color);
+    outline: 1px dotted var(--hover-color);
 }
 
 .fa-solid {
     color: var(--accent-color);
+    font-size: 1.125rem;
+}
+
+.white {
+  color: aliceblue;
+}
+
+/* Header */
+.main-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: fit-content;
+  min-height: 80px;
+  background-color: var(--background-color);
+  padding: 0 50px;
+  z-index: 1;
+}
+
+/* Navbar */
+/* Nav Links */
+.navbar a, 
+.dropdown-menu a {
+  color: var(--primary-color);
+  text-transform: uppercase;
+  transition: color 0.5s;
+}
+.navbar a:hover,
+.dropdown-menu a:hover {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.navbar .nav-link {
+  padding: 0 1em;
+}
+
+/* Dropdown Button */
+.dropdown-button {
+  color: var(--primary-color);
+  font: 400 1.125rem 'Raleway', sans-serif;
+  text-transform: uppercase;
+  background-color: var(--background-color);
+  border: none;
+  transition: color 0.5s;
+}
+.dropdown-button .dropdown-arrow {
+  color: var(--primary-color);
+  transition: color 0.5s;
+}
+
+/* To position the dropdown menu */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Menu (Hidden by Default) */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: var(--background-color);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+/* Dropdown menu links */
+.dropdown-menu a {
+  padding: 1rem;
+  display: block;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Change the state of the dropdown button when the dropdown menu is shown */
+.dropdown:hover .dropdown-button {
+  color: var(--secondary-color);
+  background-color: var(--background-color);
+  cursor: pointer;
+}
+.dropdown:hover .dropdown-button .dropdown-arrow {
+  color: var(--secondary-color);
+}
+
+/* Below Header */
+.hero-section {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('//localhost/property-rental-listing/assets/img/header-image.jpg');
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+  min-height: 570px;
+  display: flex;
+  text-align: center;
+}
+/*Search Bar*/
+#search-bar {
+  width: 50%;
+  background-color:var(--background-color);
+  padding: 1rem;
+  margin: 2rem auto;
+  border-radius: 0.625rem;
+  box-shadow: 0 0 5px 2.5px var(--hover-color), 0 0 0 5px var(--background-color);
+}
+#search-bar input {
+  color: var(--primary-color);
+  font: 500 1rem 'Raleway', sans-serif;
+  background-color: transparent;
+  width: 100%;
+  border: none;
+}
+#search-bar .column-1 {
+  flex-grow: 0.75;
+}
+#search-bar .column-2 {
+  flex-grow: 0.25;
+  text-align: right;
+}
+/* Search Icon */
+.rotate-btn {
+  position: relative;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.rotate-btn:hover .fa-solid {
+  transform: rotate(90deg);
+}
+
+.rotate-btn .fa-solid {
+  transition: transform 0.5s ease-in-out;
+}
+
+.rotate-btn:hover .fa-solid:before {
+  content: "\f176";
+  transition: content 0.5s ease-in-out;
 }
 
 /* Contact Page */
 .contact-section {
-    background-image: url('//localhost/property-rental-listing/assets/img/contact-bg-img.jpg');
-    background-size: cover;
-    position: relative;
-    padding: 3.125rem 0;
-    z-index: 0;
-}
-
-.contact-section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: -1;
-    /* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('//localhost/property-rental-listing/assets/img/header-image.jpg'); */
-}
-
-.contact-info * {
-    color: #fff;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('//localhost/property-rental-listing/assets/img/contact-bg-img.jpg');
+  background-size: cover;
+  background-position: center center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 /*Login + Register Pages*/
@@ -160,7 +328,7 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #eee;
+    background-color: #eee; /* to be replaced with an image */
 }
  
 .form-container form {
@@ -179,253 +347,3 @@ a:hover {
 .form-container .form-group button {
     margin-bottom: 20px;
 } 
-
-/*Dashboard*/
-a.button {
-    display: inline-block;
-}
-a.button:hover {
-    text-decoration: none;
-}
-.dashboard-header div.column-2 {
-    text-align: right;
-}
-
-
-/*Header*/
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-  }
-  
-  .logo {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-  .nav-button,
-  .nav-select,
-  .nav-link {
-    margin-left: 10px;
-  }
-  
-  .nav-link {
-    margin-left: auto;
-    text-decoration: none;
-    color: #333;
-  }
-
-/*Sign In Button Header*/
-.custom-button {
-    background: transparent;
-    position: relative;
-    padding: 5px 15px;
-    display: flex;
-    align-items: center;
-    font-size: 17px;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    border: 1px solid #EAA534;
-    border-radius: 25px;
-    outline: none;
-    overflow: hidden;
-    color: #3A3333;
-    transition: color 0.3s 0.1s ease-out;
-    text-align: center;
-  }
-
-  .custom-button span {
-    margin: 10px;
-  }
-
-  .custom-button::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    content: '';
-    border-radius: 50%;
-    display: block;
-    width: 20em;
-    height: 20em;
-    left: -5em;
-    text-align: center;
-    transition: box-shadow 0.5s ease-out;
-    z-index: -1;
-  }
-
-  .custom-button:hover {
-    color: #3A3333;
-    border: 1px solid #3A3333;
-  }
-
-  .custom-button:hover::before {
-    box-shadow: inset 0 0 0 10em #EAA534;
-  }
-  
-
-/*search*/
-
-.search {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('//localhost/property-rental-listing/assets/img/header-image.jpg');
-    background-size:cover;
-    position: relative;
-    padding: 10rem 0rem;
-    background-position: top;
-}
-
-.container-s {
-    text-align: center;
-    padding-top: 5px;
-}
-
-/*Search Bar*/
-* {
-    outline: none;
-  }
-  
-  .tb {
-    display:table;
-    width: 100%;
-  }
-  
-  .td {
-    display: table-cell;
-    vertical-align: middle;
-  }
-  
- .td input,
- .td button {
-    color: var(--primary-color);
-    font-weight: 400;
-    font-family: 'Raleway', sans-serif;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    background-color: transparent;
-  }
-  
-  #cover {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    width: 1000px;
-    padding: 35px;
-    margin: -83px auto 0 auto;
-    background-color:#ffffff;
-    border-radius: 20px;
-    box-shadow: 0 0px 15px #EAA534, 0 0 0 10px #ffffff;
-    transform: scale(0.6);
-  }
-    
-  .td input[type="text"] {
-    width: 100%;
-    height: 90%;
-    font-size: 35px;
-    line-height: 1;
-  }
-  
-  .td input[type="text"]::placeholder {
-    color: var(--primary-color);
-  }
-  
-  #s-cover {
-    width: 1px;
-    padding-left: 35px;
-  }
-  
-  .td button {
-    position: relative;
-    display: block;
-    width: 84px;
-    height: 9px;
-    cursor: pointer;
-  }
-  
-  #s-circle {
-    position: relative;
-    top: -35px;
-    left: 12px;
-    width: 50px;
-    height: 50px;
-    margin-top: 0;
-    border-width: 15px;
-    border: 10px solid var(--primary-color);
-    background-color: transparent;
-    border-radius: 50%;
-    transition: 0.5s ease all;
-  }
-  
-  button span {
-    position: absolute;
-    top: 55px;
-    left: 70px;
-    display: block;
-    width: 50px;
-    height: 10px;
-    background-color: transparent;
-    border-radius: 10px;
-    transform: rotateZ(52deg);
-    transition: 0.5s ease all;
-  }
-  
-  button span:before,
-  button span:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: -50px;
-    right: 0px;
-    width: 45px;
-    height: 10px;
-    background-color: var(--primary-color);
-    border-radius: 10px;
-    transform: rotateZ(0);
-    transition: 0.5s ease all;
-  }
-  
-  #s-cover:hover #s-circle {
-    top: -1px;
-    width: 67px;
-    height: 10px;
-    border-width: 0;
-    background-color: var(--primary-color);
-    border-radius: 20px;
-  }
-  
-  #s-cover:hover span {
-    top: 80%;
-    left: 106.2px;
-    width: 25px;
-    margin-top: -9px;
-    transform: rotateZ(0);
-  }
-  
-  #s-cover:hover button span:before {
-    bottom: 11px;
-    transform: rotateZ(52deg);
-  }
-  
-  #s-cover:hover button span:after {
-    bottom: -11px;
-    transform: rotateZ(-52deg);
-  }
-  #s-cover:hover button span:before,
-  #s-cover:hover button span:after {
-    right: -6px;
-    width: 40px;
-    background-color: var(--primary-color);
-  }
-  
