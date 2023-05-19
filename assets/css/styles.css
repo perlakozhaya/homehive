@@ -200,7 +200,7 @@ a.button:hover {
 .dropdown-menu a:hover {
   color: var(--secondary-color);
   text-decoration: none;
-}
+}   
 
 .navbar .nav-link {
   padding: 0 1em;
@@ -303,12 +303,14 @@ a.button:hover {
 }
 
 .rotate-btn .fa-solid {
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.2s ease-in-out;
+  
 }
 
 .rotate-btn:hover .fa-solid:before {
   content: "\f176";
-  transition: content 0.5s ease-in-out;
+  transition: content 0.2s ease-in-out;
+  color: var(--secondary-color);
 }
 
 /* Contact Page */
@@ -328,12 +330,14 @@ a.button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #eee; /* to be replaced with an image */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('//localhost/homehive/assets/img/login-reg-bg.jpg');
+    background-size: cover;
+    background-position: center center;
 }
  
 .form-container form {
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 35px;
     background: #fff;
     text-align: center;
     width: 500px;
@@ -346,4 +350,54 @@ a.button:hover {
 
 .form-container .form-group button {
     margin-bottom: 20px;
-} 
+}
+
+/*Footer*/
+footer {
+  color: white;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.footer-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.house-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.house-button img {
+  width: 400px;
+  height: 400px;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+
+.house-button:hover img {
+  transform: scale(1.1);
+}
+
+.house-button h3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 25px;
+  text-align: center;
+  z-index: 1;
+}
