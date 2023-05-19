@@ -28,6 +28,8 @@
             <p>Don't have an account? <a href="register.php">Register Now</a></p>
         </form>
     </section>
+
+    <?php //mail() function to send a mail  ?>
 </body>
 
 </html>
