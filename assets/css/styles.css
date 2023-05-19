@@ -221,8 +221,8 @@ a.button:hover {
 
 .navbar a:hover,
 .dropdown-menu a:hover {
-    color: var(--secondary-color);
-    text-decoration: none;
+  color: var(--secondary-color);
+  text-decoration: none;
 }
 
 .navbar .nav-link {
@@ -333,12 +333,12 @@ a.button:hover {
 }
 
 .rotate-btn .fa-solid {
-    transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out;
 }
 
 .rotate-btn:hover .fa-solid:before {
-    content: "\f176";
-    transition: content 0.5s ease-in-out;
+  content: "\f176";
+  transition: content 0.5s ease-in-out;
 }
 
 /* Contact Page */
@@ -358,13 +358,12 @@ a.button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #eee;
-    /* to be replaced with an image */
+    background-color: #eee; /* to be replaced with an image */
 }
 
 .form-container form {
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 35px;
     background: #fff;
     text-align: center;
     width: 500px;
@@ -377,42 +376,4 @@ a.button:hover {
 
 .form-container .form-group button {
     margin-bottom: 20px;
-}
-
-/* Section 1 Homepage */
-/* .column {
-    flex: 25%;
-    padding: 10px;
-} */
-
-.image-container {
-    position: relative;
-}
-
-.image {
-    width: 100%;
-    height: auto;
-}
-
-.overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    transition: opacity 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.image-container:hover .overlay {
-    opacity: 1;
-}
-
-.header {
-    color: #fff;
-    text-align: center;
 }
