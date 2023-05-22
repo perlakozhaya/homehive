@@ -17,12 +17,11 @@
 </head>
 
 <body>
-    <div class="column-container multi-column header-button">
+    <div class="dashboard-header multi-column">
         <div class="column-1">
-            <h3>Welcome, <span><?php echo 'user' #$_SESSION['name'] ?></span>!</h3>
+            <h3>Welcome, <?php echo 'user' #$_SESSION['name'] ?>!</h3>
         </div>
-        <div class="column-2">
-            <a href="register.php" class="button">Switch to administrator</a>
+        <div class="column-2 align-right">
             <a href="index.php" class="button">Logout</a>
         </div>
     </div>

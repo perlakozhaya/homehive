@@ -1,32 +1,8 @@
-<?php require_once "includes/db.php"; ?>
+<?php require_once "includes/db.inc.php"; ?>
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="icon" href="assets/favicons/favicon.ico">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="theme-color" content="#EAA534">
-        <meta name="description" content="Web app for listing and renting properties">
-        
-        <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
-        <link rel="manifest" href="assets/favicons/site.webmanifest">
+        <?php include('templates/header.php'); ?>
 
-        <link href="assets/css/styles.css" rel="stylesheet" type="text/css">
-        
-        <link href="assets/font-awesome/css/all.css" rel="stylesheet">
-
-        <title>Property Rental & Listing | HomeHive</title>
-    </head>
-
-    <body>
-        <header class="main-header multi-column">
-        <?php include('header.php'); ?>
-        </header>
-
+        <!-- Below Header Hero -->
         <section class="hero-section">
         <div class="column-container">
             <h1 class="white">Find your perfect match with our rental properties</h1>
@@ -47,48 +23,51 @@
         </div>
         </section>
 
-        <section class="column-container">
-            <div class="multi-column white-space">
-            <div class="column-1">
-                <div class="image-container">
-                <img src="//localhost/homehive/assets/img/house-thumb.jpg" alt="Image 1" class="image" width="150" height="150px">
-                <div class="overlay">
-                    <h2 class="header">House</h2>
+        <!-- Explore Properties by Type -->
+        <section class="column-container white-space section-1">
+            <h2>Explore Properties by Type</h2>
+            <div class="multi-column">
+                <div class="column-1">
+                    <div class="image-container">
+                        <img src="//localhost/homehive/assets/img/house-thumb.jpg" alt="House">
+                        <div class="overlay">
+                            <a href="//localhost/homehive/house.php" class="button white">Show More</a>
+                        </div>
+                    </div>
+                    <h3>House</h3>
                 </div>
+                <div class="column-2">
+                    <div class="image-container">
+                        <img src="//localhost/homehive/assets/img/bungalow-thumb.jpg" alt="Bungalow">
+                        <div class="overlay">
+                            <a href="//localhost/homehive/bungalow.php" class="button white">Show More</a>
+                        </div>
+                    </div>
+                    <h3>Bungalow</h3>
+                </div>
+                <div class="column-3">
+                    <div class="image-container">
+                        <img src="//localhost/homehive/assets/img/apartment-thumb.jpg" alt="Apartment">
+                        <div class="overlay">
+                            <a href="//localhost/homehive/apartment.php" class="button white">Show More</a>
+                        </div>
+                    </div>
+                    <h3>Apartment</h3>
+                </div>
+                <div class="column-4">
+                    <div class="image-container">
+                        <img src="//localhost/homehive/assets/img/studio-thumb.jpg" alt="Studio">
+                        <div class="overlay">
+                            <a href="//localhost/homehive/studio.php" class="button white">Show More</a>
+                        </div>
+                    </div>
+                    <h3>Studio</h3>
                 </div>
             </div>
-            
-            <div class="column-2">
-                <div class="image-container">
-                <img src="//localhost/homehive/assets/img/apartment-thumb.jpg" alt="Image 2" class="image" width="150" height="150px">
-                <div class="overlay">
-                    <h2 class="header">Apartment</h2>
-                </div>
-                </div>
-            </div>
-            
-            <div class="column-3">
-                <div class="image-container">
-                <img src="//localhost/homehive/assets/img/bungalow-thumb.jpg" alt="Image 3" class="image" width="150px" height="150px">
-                <div class="overlay">
-                    <h2 class="header">Bungalow</h2>
-                </div>
-                </div>
-            </div>
-            
-            <div class="column-4">
-                <div class="image-container">
-                <img src="//localhost/homehive/assets/img/studio-thumb.jpg" alt="Image 4" class="image" width="150" height="150px">
-                <div class="overlay">
-                    <h2 class="header">Studio</h2>
-                </div>
-                </div>
-            </div>
-            </div>
+            <div class="align-center"><a href="#" class="button">View All</a></div> 
         </section>
 
-        <footer>
-            <?php include('footer.php'); ?>
-        </footer>
+        <!-- Footer -->
+        <?php include('templates/footer.php'); ?>
     </body>
 </html>
