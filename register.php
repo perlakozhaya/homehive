@@ -5,15 +5,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link href="assets/css/styles.css" rel="stylesheet">
+    <meta name="theme-color" content="#EAA534">
+    <meta name="description" content="Website for listing and renting properties">
+    <link rel="icon" href="assets/favicons/favicon.ico">
+        
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
+    <link rel="manifest" href="assets/favicons/site.webmanifest">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="assets/favicon/site.webmanifest">
+    <link href="./assets/css/styles.css" rel="stylesheet">
+        
+    <link href="./assets/font-awesome/css/all.css" rel="stylesheet">
 
-    <title>Log in to HomeHive</title>
+    <title>Register | Homehive</title>
 </head>
 
 <body>
@@ -25,10 +30,6 @@
                 <input type="email" name="email" required placeholder="Enter your email">
                 <input type="password" name="password" required placeholder="Enter your password">
                 <input type="password" name="password-confirm" required placeholder="Confirm your password">
-                <select name="user-type">
-                    <option value="user">user</option>
-                    <option value="admin">admin</option>
-                </select>
             </div>
             <button type="submit" name="submit" class="button">Register Now</button>
             <p>Already have an account? <a href="login.php">Login Now</a></p>

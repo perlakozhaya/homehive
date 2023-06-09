@@ -1,1 +1,3 @@
-# homehive
+# Homehive - Property Rental & Listing System
+
+Homehive is a website that allows users to create a profile to list a property for rent as an owner or rent a property as a tenant. A user can switch between owner (e.g. add/edit a property, add/edit a tenant, check payments, view all reviews, etc.) and tenant (e.g. save properties they're interested in, keep track of their rental history, etc.) from a dashboard.
