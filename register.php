@@ -1,18 +1,3 @@
-<?php require_once 'includes/register.inc.php'?>
-<?php require_once 'includes/functions.inc.php'?>
-<?php
-if (
-    isset($_POST['name']) && $_POST['name'] != '' && 
-    isset($_POST['email']) && $_POST['email'] != '' && 
-    isset($_POST['password']) && $_POST['password'] != '' && 
-    isset($_POST['confirm-password']) && $_POST['confirm-password'] != ''
-) {
-    echo cleanInput($_POST['name']);
-    echo cleanInput($_POST['email']);
-    echo cleanInput($_POST['password']);
-    echo cleanInput($_POST['phone']);
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
     
@@ -41,11 +26,11 @@ if (
         <form class="form-group" action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
             <h3>Register Now</h3>
             <div class="form-control">
-                <input type="text" name="name" id="name" required placeholder="Enter your name">
-                <input type="email" name="email" id="email" required placeholder="Enter your email">
-                <input type="text" name="phone" id="phone" placeholder="Enter your phone number">
-                <input type="password" name="password" id="password" required placeholder="Enter your password">
-                <input type="password" name="confirm-password" id="confirm-password" required placeholder="Confirm your password" oninput="validatePassword()">
+                <input type="text" name="name" required placeholder="Enter your name">
+                <input type="email" name="email" required placeholder="Enter your email">
+                <input type="text" name="phone" placeholder="Enter your phone number">
+                <input type="password" name="password" required placeholder="Enter your password">
+                <input type="password" name="password-confirm" required placeholder="Confirm your password">
             </div>
             <div id="error-message"></div>
             <button type="submit" name="submit" class="button disable-element" id="register-button" disabled>Register Now</button>
