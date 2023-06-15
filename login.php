@@ -21,8 +21,10 @@
         <form class="form-group" action="" method="post">
             <h3>Login Now</h3>
             <div class="form-control">
-                <input type="text" name="username" required placeholder="Enter your username">
+                <input type="text" name="email" required placeholder="Enter your email">
                 <input type="password" name="password" required placeholder="Enter your password">
+                <label for="remember_me">Remember me</label>
+			<input type="checkbox" name="remember_me" id="remember_me" >
             </div>
             <button type="submit" name="submit" class="button">Login Now</button>
             <p>Don't have an account? <a href="register.php">Register Now</a></p>

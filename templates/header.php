@@ -29,7 +29,7 @@
             </div>
             
             <nav class="navbar column-2">
-                <a href="//localhost/homehive" class="nav-link">Home</a>
+                <a href="//localhost/homehive" class="nav-link"><i class="fa-solid fa-house"></i></a>
                 <div class="dropdown">
                     <button class="dropdown-button nav-link">Types<i class="fa-solid fa-chevron-down dropdown-arrow"></i></button>
                     <div class="dropdown-menu">
