@@ -1,3 +1,6 @@
+<?php require_once 'includes/register.inc.php'?>
+<?php require_once 'includes/functions.inc.php'?>
+
 <!DOCTYPE html>
 <html lang="en">
     
@@ -23,18 +26,23 @@
 
 <body>
     <section class="form-container">
-        <form class="form-group" action="" method="post">
+        <form class="form-group" action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
             <h3>Register Now</h3>
             <div class="form-control">
-                <input type="text" name="name" required placeholder="Enter your name">
-                <input type="email" name="email" required placeholder="Enter your email">
-                <input type="password" name="password" required placeholder="Enter your password">
-                <input type="password" name="password-confirm" required placeholder="Confirm your password">
+                <input type="text" name="name" id="name" required placeholder="Enter your name">
+                <input type="email" name="email" id="email" required placeholder="Enter your email">
+                <input type="phone" name="phone" id="phone" placeholder="Enter your phone number">
+                <input type="password" name="password" id="password" required placeholder="Enter your password">
+                <input type="password" name="confirm-password" id="confirm-password" required placeholder="Confirm your password" oninput="validatePassword()">
             </div>
-            <button type="submit" name="submit" class="button">Register Now</button>
+            <div id="error-message"></div>
+            <button type="submit" name="submit" class="button disable-element" id="register-button" disabled>Register Now</button>
+            <div><?php echo $error ?></div>
             <p>Already have an account? <a href="login.php">Login Now</a></p>
         </form>
     </section>
+
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>

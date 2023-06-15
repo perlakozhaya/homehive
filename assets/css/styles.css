@@ -144,6 +144,40 @@ a.button:hover {
     text-decoration: none;
 }
 
+.disable-element {
+    cursor: no-drop;
+    opacity: 0.5;
+    padding: 0.625rem 1.5625rem;
+    display: block;
+    font: 500 1.25rem 'Raleway', sans-serif;
+    border: 2px solid var(--secondary-color);
+    border-radius: 3.125rem;
+    color: var(--primary-color);
+    text-align: center;
+    transition: none;
+    box-shadow: none;
+}
+
+.disable-element::before {
+    transition: none;
+    box-shadow: none;
+}
+
+.disable-element:hover {
+    background-color: black !important;
+    box-shadow: none;
+}
+
+/* .button-1 {
+    padding: 0.625rem 1.5625rem;
+    display: block;
+    font: 500 1.25rem 'Raleway', sans-serif;
+    border: 2px solid var(--secondary-color);
+    border-radius: 3.125rem;
+    color: var(--primary-color);
+    text-align: center;
+} */
+
 .align-right {
     text-align: right;
 }
