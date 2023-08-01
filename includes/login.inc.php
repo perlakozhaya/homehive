@@ -1,7 +1,4 @@
-
 <?php
-error_reporting(E_ALL); 
-ini_set('display_errors', 1); 
     require_once "includes/functions.inc.php";
     if
 	(
@@ -15,7 +12,7 @@ ini_set('display_errors', 1);
 		if(mysqli_num_rows($result) > 0)
 		{
 			$_SESSION["user"] = mysqli_fetch_array($result);
-			if(isset($_POST["remember_me"])){
+			if(isset($_POST["remember-me"])){
 				$remember_token = getRandomtoken();
 				mysqli_query($connection, "INSERT INTO user (remember_token) VALUES ($remember_token)");
 				setcookie("user_token", $remember_token, time() + 3600, "/");
@@ -26,7 +23,6 @@ ini_set('display_errors', 1);
 		else
 		{
 			$loginFailed = true;
-            echo "$loginFailed"; 
 		}
 
     }

@@ -1,7 +1,7 @@
 <?php $pageTitle = "Contact Us | HomeHive"; ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php include('templates/header.php'); ?>
+    <?php include('templates/header.php'); ?>
 
     <section class="contact-section">
         <div class="column-container multi-column">
@@ -29,5 +29,5 @@
         </div>
     </section>
 
-<?php include('templates/footer.php'); ?>
+    <?php include('templates/footer.php'); ?>
 </html>

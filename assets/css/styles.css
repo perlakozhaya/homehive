@@ -1,6 +1,3 @@
-/* Global Styling */
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap');
-
 :root {
     --primary-color: #3A3333;
     --secondary-color: #EAA534;
@@ -167,16 +164,6 @@ a.button:hover {
     background-color: black !important;
     box-shadow: none;
 }
-
-/* .button-1 {
-    padding: 0.625rem 1.5625rem;
-    display: block;
-    font: 500 1.25rem 'Raleway', sans-serif;
-    border: 2px solid var(--secondary-color);
-    border-radius: 3.125rem;
-    color: var(--primary-color);
-    text-align: center;
-} */
 
 .align-right {
     text-align: right;
