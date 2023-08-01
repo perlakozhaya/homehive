@@ -1,4 +1,5 @@
 <?php require_once "includes/db.inc.php"; ?>
+<?php require_once "includes/functions.inc.php"; ?>
 <?php $pageTitle = "Property Rental & Listing | HomeHive"; ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +14,8 @@
             <form method="get" action="">
                 <div class="multi-column" id="search-bar">
                     <div class="column-1">
-                        <input type="search" placeholder="Locate available properties in your area">
+                        <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="get">
+                            <input type="search" placeholder="Locate available properties in your area" name="search_area">
                     </div>
                     <div class="column-2">
                         <button type="submit" class="rotate-btn">

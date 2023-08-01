@@ -32,7 +32,7 @@
                 <input type="text" name="email" required placeholder="Enter your email">
                 <input type="password" name="password" required placeholder="Enter your password">
                 <label for="remember-me">Remember me</label>
-			<input type="checkbox" name="remember-me" id="remember-me" >
+                <input type="checkbox" name="remember-me" id="remember-me" value="Remember Me">
             </div>
             <button type="submit" name="submit" class="button">Login Now</button>
             <p>Don't have an account? <a href="register.php">Register Now</a></p>

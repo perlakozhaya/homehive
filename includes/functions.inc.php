@@ -17,20 +17,8 @@ function checkEmail($email) {
     return $email;
 }
 
-function checkPhoneNumber($phone) {
-    if(strlen($phone) < 9) {
-        for ($i = 0; $i < strlen($phone); $i++) {
-            $char = $phone[$i];
-    
-            if ($char < '0' || $char > '9') {
-                return false;
-            }
-        }
-        return true;
-    }
-}
-
 function validatePhoneNumber($phone) {
+    $phone = str_replace(' ', '', $phone);
     $pattern = '/^[0-9]+$/'; 
     return preg_match($pattern, $phone); 
     // preg_match() is a built-in php function that takes two arguments (1. a regex pattern, 2. string to check) 

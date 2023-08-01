@@ -24,23 +24,23 @@
 
 <body>
     <section class="form-container">
-        <form class="form-group" action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
+        <form class="form-group" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
             <h3>Register Now</h3>
             <div class="form-control">
                 <input type="text" name="name" required placeholder="Enter your name">
                 <input type="email" name="email" required placeholder="Enter your email">
                 <input type="text" name="phone" placeholder="Enter your phone number">
                 <input type="password" name="password" required placeholder="Enter your password">
-                <input type="password" name="password-confirm" required placeholder="Confirm your password">
+                <input type="password" name="confirm-password" required placeholder="Confirm your password">
             </div>
             <div id="error-message"></div>
-            <button type="submit" name="submit" class="button disable-element" id="register-button" disabled>Register Now</button>
+            <button type="submit" name="submit" id="register-button">Register Now</button>
             <div><?php echo $error ?></div>
             <p>Already have an account? <a href="login.php">Login Now</a></p>
         </form>
     </section>
 
-    <script src="assets/js/main.js"></script>
+    <!-- <script src="assets/js/main.js"></script> -->
 </body>
 
 </html>
