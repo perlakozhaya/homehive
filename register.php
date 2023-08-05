@@ -23,24 +23,41 @@
 </head>
 
 <body>
-    <section class="form-container">
-        <form class="form-group" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+    <section class="form-bg">
+        <div class="form-container centered">
             <h3>Register Now</h3>
-            <div class="form-control">
-                <input type="text" name="name" required placeholder="Enter your name">
-                <input type="email" name="email" required placeholder="Enter your email">
-                <input type="text" name="phone" placeholder="Enter your phone number">
-                <input type="password" name="password" required placeholder="Enter your password">
-                <input type="password" name="confirm-password" required placeholder="Confirm your password">
-            </div>
-            <div id="error-message"></div>
-            <button type="submit" name="submit" id="register-button">Register Now</button>
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" name="phone" id="phone">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" name="confirm-password" id="confirm-password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="submit" id="register-button">Register Now</button>
+                </div>
+            </form>
             <div><?php echo $error ?></div>
+            <div id="error-message"></div>
             <p>Already have an account? <a href="login.php">Login Now</a></p>
-        </form>
+        </div>
     </section>
 
-    <!-- <script src="assets/js/main.js"></script> -->
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>

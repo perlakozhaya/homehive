@@ -17,39 +17,33 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
-
+    
+    <!-- My CSS -->
+    <link href="./assets/css/styles.css" rel="stylesheet">
+    
     <!-- Font Awesome Icons -->
     <link href="./assets/font-awesome/css/all.css" rel="stylesheet">
 
-    <!-- My CSS -->
-    <link href="./assets/css/styles.css" rel="stylesheet">
-        
     <title><?php echo $pageTitle; ?></title>
 </head>
 
 <body>
-    <header class="main-header multi-column">
-        <div class="column-1">
+    <div class="body-wrapper">
+        <header class="h-block hf-block">
             <a href="//localhost/homehive">
-                <img src="//localhost/homehive/assets/img/logo.svg" alt="HomeHive Logo" width="120" height="auto">
+                <img class="logo" src="//localhost/homehive/assets/img/logo.svg" alt="HomeHive Logo" width="120" height="auto">
             </a>
-        </div>
-            
-        <nav class="column-2 navbar">
-            <a href="//localhost/homehive" class="nav-link"><i class="fa-solid fa-house"></i></a>
-            <div class="dropdown">
-                <button class="dropdown-button nav-link">Types<i class="fa-solid fa-chevron-down dropdown-arrow"></i></button>
-                <div class="dropdown-menu">
-                    <a href="#">House</a>
-                    <a href="#">Bungalow</a>
-                    <a href="#">Apartment</a>
-                    <a href="#">Studio</a>
-                </div>
-            </div> 
-            <a href="//localhost/homehive/contact.php" class="nav-link">Contact</a> 
-        </nav>
 
-        <div class="column-3 align-right">
-            <a href="login.php" class="button">Sign in</a>
-        </div>
-    </header>
+            <label for="nav-toggle" class="hamburger-icon"><i class="fa-solid fa-bars"></i></label>
+            <input type="checkbox" class="nav-toggle" id="nav-toggle">
+
+            <nav class="nav">
+                <ul>
+                    <li><a href="//localhost/homehive" class="nav-link">Home</a></li>
+                    <li><a href="//localhost/homehive/category.php" class="nav-link">Types</a></li>
+                    <li><a href="//localhost/homehive/contact.php" class="nav-link">Contact</a></li>
+                    <li><a href="login.php" class="nav-link">Log In</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>

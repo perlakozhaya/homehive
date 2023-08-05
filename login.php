@@ -37,7 +37,7 @@
             <button type="submit" name="submit" class="button">Login Now</button>
             <p>Don't have an account? <a href="register.php">Register Now</a></p>
             <div class="login-error">
-				<?php echo isset($loginFailed) && $loginFailed?"Login Failed":""; ?>
+				<?php echo isset($loginFailed) && $loginFailed?"email and/or password already exist":""; ?>
 	        </div>
         </form>
     </section>

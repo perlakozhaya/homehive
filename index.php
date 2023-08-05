@@ -6,92 +6,61 @@
     <?php include('templates/header.php'); ?>
 
     <!-- Header Hero -->
-    <section class="hero-section">
-        <div class="column-container">
-            <h1 class="white">Find your perfect match with our rental properties</h1>
-            <br>
-            <p class="white">From Economy to Luxury. Find Your Ideal Rental House and Rent the Life You Want to Live</p>
-            <form method="get" action="">
-                <div class="multi-column" id="search-bar">
-                    <div class="column-1">
-                        <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="get">
-                            <input type="search" placeholder="Locate available properties in your area" name="search_area">
+        <section class="hero full-width centered">
+            <div class="flow boxed">
+                <h1>Find your perfect match with our rental properties</h1>
+                <p>From Economy to Luxury. Find Your Ideal Rental House and Rent the Life You Want to Live</p>
+                <form method="get" action="search.php">
+                    <div class="form-group">
+                        <input type="search" placeholder="Locate available properties in your area" name="area">
                     </div>
-                    <div class="column-2">
-                        <button type="submit" class="rotate-btn">
-                            <i class="fa-solid fa-search"></i>
-                        </button>
+                    <div class="form-group">
+                        <button type="submit" name="submit"><i class="fa-solid fa-search"></i></button>
                     </div>
-                </div>
-            </form>
-        </div>
-    </section>
+                </form>
+            </div>
+        </section>
 
     <!-- Explore Properties by Type -->
-    <section class="column-container white-space section-1">
-        <h2>Explore Properties by Type</h2>
-            <div class="multi-column">
-                <div class="column-1">
-                    <div class="image-container">
-                        <img src="//localhost/homehive/assets/img/house-thumb.jpg" alt="House">
-                        <div class="overlay">
-                            <a href="//localhost/homehive/house.php" class="button white">Show More</a>
+        <section class="p-50 boxed flow">
+            <h2>Explore Properties by Type</h2>
+                <?php
+                $html = "";
+                $category = getPropertyTypes();
+                for ($i = 0; $i < min(4, count($category)); $i++) {
+                    $html .= 
+                    "<div class='boxed'>
+                        <div class='cat-wrapper'>
+                            <div class='cat-item'>
+                                <a href='//localhost/homehive/category.php/?type=" . strtolower($category[$i]['type']) ."'>
+                                    <img src='./assets/img/" . $category[$i]['file_name'] . "' alt='" . $category[$i]['alt'] . "'>
+                                    <h3>" . $category[$i]['type'] ."</h3>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <h3>House</h3>
-                </div>
-                <div class="column-2">
-                    <div class="image-container">
-                        <img src="//localhost/homehive/assets/img/bungalow-thumb.jpg" alt="Bungalow">
-                        <div class="overlay">
-                            <a href="//localhost/homehive/bungalow.php" class="button white">Show More</a>
-                        </div>
-                    </div>
-                    <h3>Bungalow</h3>
-                </div>
-                <div class="column-3">
-                    <div class="image-container">
-                        <img src="//localhost/homehive/assets/img/apartment-thumb.jpg" alt="Apartment">
-                        <div class="overlay">
-                            <a href="//localhost/homehive/apartment.php" class="button white">Show More</a>
-                        </div>
-                    </div>
-                    <h3>Apartment</h3>
-                </div>
-                <div class="column-4">
-                    <div class="image-container">
-                        <img src="//localhost/homehive/assets/img/studio-thumb.jpg" alt="Studio">
-                        <div class="overlay">
-                            <a href="//localhost/homehive/studio.php" class="button white">Show More</a>
-                        </div>
-                    </div>
-                    <h3>Studio</h3>
-                </div>
-            </div>
-        <div class="align-center"><a href="#" class="button">View All</a></div> 
-    </section>
-
-    <!-- Footer -->
-    <div class="column-container multi-column above-footer white-space">
-        <a href="#">
-            <div class="column-1">
-                <div class="af-img-container">
+                    ";
+                }
+                echo $html;
+                ?>
+            <div class="align-center"><a href="//localhost/homehive/category.php" class="button">Show More</a></div> 
+        </section>
+        
+        <!-- Footer -->
+        <section class="af-block boxed p-50">
+            <a href="#">
+                <div class="af-card">
                     <img src="//localhost/homehive/assets/img/top-of-a-building-with-blue-sky (500x500).jpg" alt="Top of a building with blue sky">
-                    <h3 class="white align-center">Rent a Property</h3>
-                    <span class="image-overlay"></span>
+                    <h3>Rent a Property</h3>
                 </div>
-            </div>
-        </a>
-        <a href="#">
-            <div class="column-2">
-                <div class="af-img-container">
+            </a>
+            <a href="#">
+                <div class="af-card">
                     <img src="//localhost/homehive/assets/img/man-in-a-suit-holding-a-toy-house (500x500).jpg" alt="Man in a suit holding a toy house">
-                    <h3 class="white align-center">Become a Host</h3>
-                    <span class="image-overlay"></span>
+                    <h3>Become a Host</h3>
                 </div>
-            </div>
-        </a>
-    </div>
+            </a>
+        </section>
 
     <?php include('templates/footer.php'); ?>
 </html>

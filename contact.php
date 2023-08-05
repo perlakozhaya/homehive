@@ -4,8 +4,8 @@
     <?php include('templates/header.php'); ?>
 
     <section class="contact-section">
-        <div class="column-container multi-column">
-            <div class="column-1">
+        <div class="multi-column">
+            <div class="column-1 flow">
                 <h2 class="white">Let's Get in Touch</h2>
                 <p class="white">Our team is dedicated to providing exceptional customer service and support for all your rental needs.<br/>
                     Whether you need help booking a rental or have feedback to share, we're here to help.<br/>
