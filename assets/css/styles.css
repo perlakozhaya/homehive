@@ -62,6 +62,7 @@ h4 {
 
 a {
     color: var(--color-primary);
+    text-decoration: none;
 }
 
 a:hover,
@@ -77,11 +78,35 @@ button {
     cursor: pointer;
 }
 
-.form-group label,
+i {
+    color: var(--color-text);
+}
+
 .form-group input,
-.form-group textarea,
-.form-group button {
+.form-group label,
+.form-group textarea {
     font: inherit;
+    color: inherit;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: .5em;
+    border-radius: 20px;
+    border: 1px solid var(--color-text);
+}
+
+.form-group textarea {
+    height: 9.375rem;
+}
+
+.web-form {
+    display: grid;
+    gap: 1em;
+}
+
+.web-form .form-group {
+    display: grid;
 }
 
 .body-wrapper {
@@ -96,27 +121,66 @@ button {
     margin: 0 auto;
 }
 
-.full-width {
-    width: 100%;
+.flex {
+    display: flex;
+    gap: 1em;
 }
 
-.flow > *:not(:first-child) {
+.flex > * {
+    flex: 1;
+}
+
+@media only screen and (max-width: 600px) {
+    .flex {
+        flex-direction: column;
+    }
+}
+
+.def-spacing > *:not(:first-child) {
     margin-top: 1em;
+}
+
+.large-spacing > *:not(:first-child) {
+    margin-top: 3em;
 }
 
 .p-50 {
     padding: 50px 0;
 }
 
-.centered {
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+.p-200 {
+    padding: 200px 0;
 }
 
 :focus {
     outline: 1px dotted var(--color-accent);
+}
+
+.full-screen--centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.centered-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.--color-white {
+    color: var(--color-bg);
+}
+
+.inline-width {
+    max-width: fit-content;
 }
 
 .hf-block {
@@ -125,12 +189,12 @@ button {
     display: flex;
     align-items: center;
 }
+
 /* Header Styling */
 .h-block {
     position: sticky;
     top: 0;
     background-color: var(--color-bg);
-    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
     z-index: 999;
 }
 
@@ -158,7 +222,6 @@ button {
 .nav-link {
     color: var(--color-bg);
     font-weight: 500;
-    text-decoration: none;
     text-transform: uppercase;
     opacity: 0;
 }
@@ -179,10 +242,6 @@ button {
 .nav-toggle:checked ~ nav a {
     opacity: 1;
     transition: opacity 250ms ease-in-out 250ms;
-}
-
-.nav-toggle:focus ~ .hamburger-icon {
-    outline: 1px dotted var(--color-accent);
 }
 
 .hamburger-icon {
@@ -218,7 +277,6 @@ button {
         color: var(--color-secondary);
         transition: color 400ms;
         opacity: 1;
-        position: relative;
     }
     
     .nav-link:hover {
@@ -226,15 +284,102 @@ button {
     }
 }
 
-/* Below Header */
-.hero {
+/* footer styling */
+.f-block {
+    background-color: var(--color-secondary);
+}
+
+.copy {
+    font-size: var(--fs-300);
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+}
+
+@media only screen and (max-width: 600px) {
+    .hf-block.f-block {
+        flex-direction: column;
+        padding: 1em;
+    }
+}
+
+/* Header Hero Section */
+.hero-bg {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('//localhost/homehive/assets/img/header-image.jpg');
     background-size: cover;
     background-position: center center;
-    position: relative;
     min-height: 570px;
 }
 
-.hero div > * {
-    color: var(--color-bg);
+.search-form {
+    width: min(100%, 40ch);
+    position: relative;
 }
+
+.search-form .form-group input {
+    width: min(100%, 40ch);
+    padding-left: 40px;
+}
+
+.search-form .form-group .search-button {
+    left: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.search-form .form-group .search-button {
+    background: none;
+    border: none;
+    border-radius: 50px;
+    padding: 4px 6px;
+    transition: background-color 400ms ease;
+}
+
+.search-button i {
+    font-size: var(--fs-300);
+}
+
+.search-form .form-group .search-button:hover {
+    background-color: rgba(239, 196, 86, 0.25);
+    border-radius: 50px;
+}
+
+/* login + register */
+.form-bg {
+    min-height: 100vh;
+    background-image: url('//localhost/homehive/assets/img/login-reg-bg.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+
+.form-container {
+    margin: 10px;
+    padding: 30px;
+    width: 500px;
+    background-color: var(--color-bg);
+    border-radius: 20px;
+}
+
+/* Contact */
+.contact-bg {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('//localhost/homehive/assets/img/contact-bg-img.jpg');
+    background-size: cover;
+    background-position: center center;
+    min-height: 100vh;
+}
+
+.contact-bg .flex {
+    column-gap: 3em;
+}
+
+/* Explore properties by type */
+.archive-item img {
+    border-radius: 20px;
+}
+
+.archive-columns.flex {
+    column-gap: 3em;
+}
+
+/* above footer */

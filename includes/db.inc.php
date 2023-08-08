@@ -1,5 +1,5 @@
 <?php
-    $config = require_once "includes/config.inc.php";
+    $config = require_once "C:/xampp/htdocs/homehive/includes/config.inc.php";
 
     $connection = new mysqli($config["MYSQL_HOST"], $config["MYSQL_USER"], $config["MYSQL_PASS"], $config["MYSQL_DB"]);
     

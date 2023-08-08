@@ -1,4 +1,5 @@
 <?php require_once "includes/register.inc.php"; ?>
+<?php require_once "includes/db.inc.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
     
@@ -19,14 +20,14 @@
         
     <link href="./assets/font-awesome/css/all.css" rel="stylesheet">
 
-    <title>Register | Homehive</title>
+    <title>Register | <?php echo $config['SITE_TITLE']; ?></title>
 </head>
 
 <body>
-    <section class="form-bg">
-        <div class="form-container centered">
+    <section class="form-bg full-screen--centered">
+        <div class="form-container def-spacing">
             <h3>Register Now</h3>
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+            <form class="web-form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" name="name" id="name" required>
@@ -47,8 +48,8 @@
                     <label for="confirm-password">Confirm Password</label>
                     <input type="password" name="confirm-password" id="confirm-password" required>
                 </div>
-                <div class="form-group">
-                    <button type="submit" name="submit" id="register-button">Register Now</button>
+                <div>
+                    <button class="btn" type="submit" name="submit" id="register-button">Register</button>
                 </div>
             </form>
             <div><?php echo $error ?></div>

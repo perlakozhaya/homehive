@@ -1,3 +1,4 @@
 RewriteEngine On
 RewriteBase /homehive/
 RewriteRule ^property/(.*) /homehive/property.php?slug=$1 [QSA,L]
+RewriteRule ^category/(.*) /homehive/category.php?type=$1 [QSA,L]

@@ -1,5 +1,6 @@
 <?php require_once "includes/login.inc.php"; ?>
 <?php require_once "includes/functions.inc.php"; ?>
+<?php require_once "includes/db.inc.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,27 +22,36 @@
         
     <link href="./assets/font-awesome/css/all.css" rel="stylesheet">
 
-    <title>Login to Homehive</title>
+    <title>Login to <?php echo $config['SITE_TITLE']; ?></title>
 </head>
 
 <body>
-    <section class="form-container">
-        <form class="form-group" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
+    <section class="form-bg full-screen--centered">
+        <div class="form-container def-spacing">
             <h3>Login Now</h3>
-            <div class="form-control">
-                <input type="text" name="email" required placeholder="Enter your email">
-                <input type="password" name="password" required placeholder="Enter your password">
-                <label for="remember-me">Remember me</label>
-                <input type="checkbox" name="remember-me" id="remember-me" value="Remember Me">
-            </div>
-            <button type="submit" name="submit" class="button">Login Now</button>
-            <p>Don't have an account? <a href="register.php">Register Now</a></p>
+            <form class="web-form" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required>
+                </div>
+                <div>
+                    <input type="checkbox" name="remember-me" id="remember-me" value="Remember me">
+                    <label for="remember-me">Remember me</label>
+                </div>
+                <div>
+                    <button type="submit" name="submit" class="btn">Login</button>
+                </div>
+            </form>
             <div class="login-error">
-				<?php echo isset($loginFailed) && $loginFailed?"email and/or password already exist":""; ?>
-	        </div>
-        </form>
+                <?php echo isset($loginFailed) && $loginFailed?"email and/or password not correct":""; ?>
+            </div>
+            <p>Don't have an account? <a href="register.php">Register Now</a></p>
+        </div>
     </section>
-
 </body>
 
 </html>

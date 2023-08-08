@@ -1,31 +1,34 @@
-<?php $pageTitle = "Contact Us | HomeHive"; ?>
+<?php require_once("includes/db.inc.php"); ?>
+<?php $pageTitle = "Contact Us | " . $config['SITE_TITLE']; ?>
 <!DOCTYPE html>
 <html lang="en">
     <?php include('templates/header.php'); ?>
 
-    <section class="contact-section">
-        <div class="multi-column">
-            <div class="column-1 flow">
-                <h2 class="white">Let's Get in Touch</h2>
-                <p class="white">Our team is dedicated to providing exceptional customer service and support for all your rental needs.<br/>
-                    Whether you need help booking a rental or have feedback to share, we're here to help.<br/>
-                    Get in touch with us today and let us assist you in creating an unforgettable rental experience. 
-                </p>
+    <section class="contact-bg full-screen--centered">
+        <div class="boxed flex p-50">
+            <div class="def-spacing">
+                <h2 class="--color-white">Let's Get in Touch</h2>
+                <p class="--color-white">Our team is dedicated to providing exceptional customer service and support for all your rental needs.
+                Whether you need help booking a rental or have feedback to share, we're here to help.
+                Get in touch with us today and let us assist you in creating an unforgettable rental experience.</p>
             </div>
-            <div class="column-2">
-                <form class="form-group" action="" method="POST">
-                <label for="name" hidden>Name:</label>
-                <input type="text" id="name" name="name" placeholder="Name" required>
-                
-                <label for="email" hidden>Email:</label>
-                <input type="email" id="email" name="email" placeholder="Email" required>
-                
-                <label for="message" hidden>Message:</label>
-                <textarea id="message" name="message" placeholder="Your Text" required></textarea>
-                
-                <button type="submit" class="button white">Get in Touch</button>
-                </form>
-            </div>
+            <form class="web-form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+                <div class="form-group --color-white">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group --color-white">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group --color-white">
+                    <label for="message">Your Text</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="btn">Get in Touch</button>
+                </div>
+            </form>
         </div>
     </section>
 

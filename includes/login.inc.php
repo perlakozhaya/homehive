@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once "includes/functions.inc.php";
 
 if (isset($_POST['email']) && $_POST['email'] != '' && 
@@ -15,8 +14,11 @@ if (isset($_POST['email']) && $_POST['email'] != '' &&
 
 		if(isset($_POST["remember-me"])) {
 			$remember_token = getRandomtoken();
-			mysqli_query($connection, "INSERT INTO user (remember_token) VALUES ('$remember_token')");
-			setcookie("user_token", $remember_token, time() + 3600, "/");
+			$query = "UPDATE user
+			SET remember_token = '$remember_token'
+			WHERE user_id = '" . $_SESSION["user"]["user_id"] . "'";
+			mysqli_query($connection, $query);
+			setcookie("login_token", $remember_token, time() + 3600, "/");
 		}
 		
         header("location:index.php");
