@@ -207,3 +207,48 @@ function get_property_id_by_type($category) {
     }
     return array('propertyIds' => $propertyIds, 'display' => "");
 }
+
+function get_latest_properties($limit = 10) {
+    global $connection;
+
+    $query = "SELECT property_id
+    FROM property
+    ORDER BY listed_on DESC 
+    LIMIT $limit";
+    $result = mysqli_query($connection,$query);
+
+    if(!$result){
+        return false;
+    }
+
+    $propertyIds = array();
+
+    while ($row = mysqli_fetch_assoc()) {
+        $propertyIds[] = $row;
+    }
+
+    return $propertyIds;
+}
+
+function get_popular_properties($limit = 10) {
+
+    global $connection;
+
+    $query = "SELECT property_id
+    FROM property 
+    ORDER BY rating DESC  
+    LIMIT $limit";
+    $result = mysqli_query( $connection ,$query );
+
+    if(!$result){
+        return false;
+    }
+
+    $propertyIds = array();
+    while ($row = mysqli_fetch_assoc()) {
+        $propertyIds[] = $row;
+    }
+
+    return $propertyIds;
+}
+?>
