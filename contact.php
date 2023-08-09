@@ -1,11 +1,12 @@
 <?php require_once("includes/db.inc.php"); ?>
+<?php require_once("includes/functions.inc.php"); ?>
 <?php $pageTitle = "Contact Us | " . $config['SITE_TITLE']; ?>
 <!DOCTYPE html>
 <html lang="en">
     <?php include('templates/header.php'); ?>
 
     <section class="contact-bg full-screen--centered">
-        <div class="boxed flex p-50">
+        <div class="boxed flex">
             <div class="def-spacing">
                 <h2 class="--color-white">Let's Get in Touch</h2>
                 <p class="--color-white">Our team is dedicated to providing exceptional customer service and support for all your rental needs.

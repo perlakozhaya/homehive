@@ -22,15 +22,16 @@
                 </form>
                 <a href='//localhost/homehive' class='btn'>Back to Home</a>
             </div>";
-            echo $html;
         }
         else {
-            echo displayProperty($propertyIds);
+            $html .= "<section class='boxed'>" . displayProperty($propertyIds) . "</section>";
         }
     }
     else {
         $propertyIds = getPropertyIds();
-        echo displayProperty($propertyIds);
+        $html .= "<section class='boxed'>" . displayProperty($propertyIds) . "</section>";
     }
+    echo $html;
     ?>
     <?php include('templates/footer.php'); ?>
+</html>
