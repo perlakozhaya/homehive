@@ -7,11 +7,11 @@ function validatePassword() {
     if (password.value !== confirmPassword.value) {
         errorMessage.innerHTML = 'Passwords do not match';
         registerButton.disabled = true;
-        registerButton.classList.add('disable-element');
+        // registerButton.classList.add('disable-element');
     } else {
         errorMessage.innerHTML = '';
         registerButton.disabled = false;
-        registerButton.classList.remove('disable-element');
+        // registerButton.classList.remove('disable-element');
     }
 }
-// confirmPassword.addEventListener('input', validatePassword);
+document.getElementById('confirm-password').addEventListener('input', validatePassword);

@@ -127,7 +127,7 @@ function displayProperty($propertyIds) {
     $propertiesPerRow = 4;
     $totalproperties = count($properties);
 
-    if (count($propertyIds) > 4) {
+    if (count($propertyIds) !== $propertiesPerRow) {
         $remainingItems = $propertiesPerRow - ($totalproperties % $propertiesPerRow);
     
         for ($k = 0; $k < $remainingItems; $k++) {

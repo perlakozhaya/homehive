@@ -358,6 +358,11 @@ i {
     border-radius: 20px;
 }
 
+div#error-message {
+    color: red;
+    font-size: var(--fs-300);
+}
+
 /* Contact */
 .contact-bg {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('//localhost/homehive/assets/img/contact-bg-img.jpg');
