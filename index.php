@@ -65,18 +65,17 @@
         </a>
         <?php 
         if(isset($_SESSION['user'])) { ?>
-            <a href="//localhost/homehive/admin/author.php?action=add">
+            <a href="//localhost/homehive/admin/host.php">
         <?php
         }
         else { ?>
             <a href="//localhost/homehive/login.php">
         <?php
         } ?>
-            <div class="af-card">
+             <div class="af-card">
                 <img src="//localhost/homehive/assets/img/man-in-a-suit-holding-a-toy-house (500x500).jpg" alt="Man in a suit holding a toy house">
-                <h3>Become a Host</h3>
+                <h3> Become a Host</h3>
             </div>
-        </a>
     </section>
 
     <?php include('templates/footer.php'); ?>

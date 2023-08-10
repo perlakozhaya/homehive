@@ -22,7 +22,7 @@
     <link href="/homehive/assets/css/styles.css" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
-    <link href="/homehive/assets/font-awesome/css/all.css" rel="stylesheet">
+    <link href="/homehive/assets/font-awesome/css/all.css?v=1.0" rel="stylesheet">
 
     <title><?php echo $pageTitle; ?></title>
 </head>

@@ -109,6 +109,10 @@ i {
     display: grid;
 }
 
+.form-group.file input {
+    border: none;
+}
+
 .body-wrapper {
     min-height: 100vh;
     min-height: 100dvh;
