@@ -123,41 +123,67 @@ function displayProperty($propertyIds) {
     while ($row = mysqli_fetch_assoc($result)) {
         $properties[] = $row;
     }
-            
-    for($i = 0; $i < count($properties); $i++) {
-        $filename = $properties[$i]['file_name'];
-        $image_url = "./assets/img/" . ($filename ? "uploads/$filename" : "custom-image-placeholder.jpg");
-
-        $alt = $properties[$i]['description'];
-        $image_alt = ($alt ? $alt : "Custom image placeholder of a house with trees");
-
-        $state = $properties[$i]['state'];
-        $address = $properties[$i]['country'] . ($state ? ", $state" : "") . ", " . $properties[$i]['city'];
     
-        $rating = $properties[$i]['rating'];
-        $starRating = $rating ? round($rating) : 0;
-        $starRating = "";
-        for ($j = 1; $j <= 5; $j++) {
-            $starClass = ($j <= $rating) ? "filled" : "empty";
-            $starRating .= "<span class='$starClass'>&#9733;</span>";
+    $propertiesPerRow = 4;
+    $totalproperties = count($properties);
+
+    if (count($propertyIds) !== $propertiesPerRow) {
+        $remainingItems = $propertiesPerRow - ($totalproperties % $propertiesPerRow);
+    
+        for ($k = 0; $k < $remainingItems; $k++) {
+            $properties[] = null; // Add null values for empty columns
         }
-    
-        $html .= 
-        "<div class='p-archive-wrapper'>
-            <div class='p-archive'>
-                <div class='p-image-container image-container' style='background-image: url($image_url);'>
-                    <div class='p-overlay'></div>
-                    <a class='button centered white' href='//localhost/homehive/property/" . slug($properties[$i]['title']) . "'>View Details</a>
-                </div>
-                <div class='p-content-container'>
-                    <p class='p-category'>" . $properties[$i]['property_type'] . "</p>
-                    <p class='p-address'>" . $address . "</p>
-                    <h3 class='p-title'>" . $properties[$i]['title'] . "</h3>
-                    <div class='p-rating'>" . $starRating . "</div>
-                    <p class='p-price'>" . $properties[$i]['price_per_night'] . "$/night</p>
-                </div>
-            </div>
-        </div>";
+    }
+
+    foreach (array_chunk($properties, $propertiesPerRow) as $rowProperties) {
+        $html .= "<div class='all-columns archive-columns flex'>";
+
+        for($i = 0; $i < count($rowProperties); $i++) {
+            if ($rowProperties[$i] === null) {
+                $html .= "<div></div>";
+            } 
+            else {
+                $filename = $rowProperties[$i]['file_name'];
+                $image_url = "./assets/img/" . ($filename ? "uploads/$filename" : "custom-image-placeholder.jpg");
+
+                $alt = $rowProperties[$i]['description'];
+                $image_alt = ($alt ? $alt : "Custom image placeholder of a house with trees");
+
+                $state = $rowProperties[$i]['state'];
+                $address = $rowProperties[$i]['country'] . ($state ? ", $state" : "") . ", " . $rowProperties[$i]['city'];
+            
+                $rating = $rowProperties[$i]['rating'];
+                $rating = $rating ? round($rating) : 0;
+                $starRating = "";
+
+                $type = $rowProperties[$i]['property_type'];
+
+                $title = $rowProperties[$i]['title'];
+
+                $price = $rowProperties[$i]['price_per_night'] . " USD / night";
+
+                for ($j = 1; $j <= 5; $j++) {
+                    $starClass = ($j <= $rating) ? "filled" : "empty";
+                    $starRating .= "<span class='$starClass'>&#9733;</span>";
+                }
+                
+                $html .= 
+                "<div class='p-archive def-spacing'>
+                    <div class='p-image-container'>
+                        <img src='$image_url' alt='$image_alt'>
+                    </div>
+                    <div class='p-content-container'>
+                        <p class='p-category'>" . $type . "</p>
+                        <p class='p-address'>" . $address . "</p>
+                        <h3 class='p-title'>" . $title . "</h3>
+                        <div class='p-rating'>" . $starRating . "</div>
+                        <p class='p-price'>" . $price . "</p>
+                    </div>
+                    <a class='p-button' href='//localhost/homehive/property/" . slug($title) . "'>View Details</a>
+                </div>";
+            }
+        }
+        $html .= "</div>";
     }
     return $html;
 }
@@ -208,9 +234,8 @@ function get_property_id_by_type($category) {
     return array('propertyIds' => $propertyIds, 'display' => "");
 }
 
-function get_latest_properties($limit = 10) {
+function get_latest_properties($limit = 4) {
     global $connection;
-
     $query = "SELECT property_id
     FROM property
     ORDER BY listed_on DESC 
@@ -222,33 +247,48 @@ function get_latest_properties($limit = 10) {
     }
 
     $propertyIds = array();
-
-    while ($row = mysqli_fetch_assoc()) {
-        $propertyIds[] = $row;
+    while ($row = mysqli_fetch_assoc($result)) {
+        $propertyIds[] = $row['property_id'];
     }
-
     return $propertyIds;
 }
 
-function get_popular_properties($limit = 10) {
-
+function get_popular_properties($limit = 4) {
     global $connection;
-
-    $query = "SELECT property_id
-    FROM property 
-    ORDER BY rating DESC  
+    $query = "SELECT RA.property_id, AVG(R.rating) AS avg_rating
+    FROM rent_agreement RA
+    INNER JOIN review R ON RA.rent_agreement_id = R.rent_agreement_id
+    GROUP BY RA.property_id
+    ORDER BY avg_rating DESC
     LIMIT $limit";
-    $result = mysqli_query( $connection ,$query );
+    $result = mysqli_query($connection, $query);
 
-    if(!$result){
+    if(!$result) {
         return false;
     }
 
     $propertyIds = array();
-    while ($row = mysqli_fetch_assoc()) {
-        $propertyIds[] = $row;
+    while ($row = mysqli_fetch_assoc($result)) {
+        $propertyIds[] = $row['property_id'];
     }
-
     return $propertyIds;
+}
+
+function sendContactEmail($name, $email, $message) {
+    $to = '';
+    $subject = 'New Contact Form Submission';
+    $headers = "From: $email\r\n";
+    $headers .= "Reply-To: $email\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+    $messageBody = "<html><body>";
+    $messageBody .= "<h2>New Contact Form Submission</h2>";
+    $messageBody .= "<p><strong>Name:</strong> $name</p>";
+    $messageBody .= "<p><strong>Email:</strong> $email</p>";
+    $messageBody .= "<p><strong>Message:</strong> $message</p>";
+    $messageBody .= "</body></html>";
+
+    return mail($to, $subject, $messageBody, $headers);
 }
 ?>
