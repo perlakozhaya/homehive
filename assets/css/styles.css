@@ -369,6 +369,10 @@ i {
     min-height: 100vh;
 }
 
+.contact-form .form-group label {
+    color: var(--color-bg) !important;
+}
+
 .contact-bg .flex {
     column-gap: 3em;
 }
