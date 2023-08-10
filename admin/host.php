@@ -1,5 +1,6 @@
 <?php include_once("../includes/db.inc.php"); ?>
 <?php include_once("../includes/functions.inc.php"); ?>
+<?php $pageTitle = "Host | " . $config['SITE_TITLE']; ?>
 
 <!DOCTYPE html>
 <html lang="eng">
