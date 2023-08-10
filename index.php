@@ -23,7 +23,7 @@
                                 city_options += "<option value='" + city_list[i] + "'>" + city_list[i] + "</option>";
                             }
                             city_datalist.innerHTML = city_options;
-                            </script>
+                        </script>
                     </datalist>
                     <button type="submit" name="submit" class="search-button"><i class="fa-solid fa-search"></i></button>
                 </div>
