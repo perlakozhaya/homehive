@@ -1,5 +1,6 @@
 <?php
 require_once "includes/functions.inc.php";
+require_once "includes/db.inc.php";
 $error = "";
 if (
     isset($_POST['name']) && $_POST['name'] != '' && 
@@ -7,7 +8,6 @@ if (
     isset($_POST['password']) && $_POST['password'] != '' && 
     isset($_POST['confirm-password']) && $_POST['confirm-password'] != ''
 ) {
-    require_once "includes/db.inc.php";
     $name = cleanInput($_POST['name']);
 
     // check phone & email validation + check for matching passwords
@@ -37,7 +37,7 @@ if (
 
     }
     else {
-        $error = "Some information are incorrect";
+        $error = "Some information are not valid";
     }
 }
 ?>

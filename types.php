@@ -4,28 +4,45 @@
 <!DOCTYPE html>
 <html lang="en">
     <?php include ('templates/header.php'); ?>
-    <section class="boxed">
+
+    <section class="boxed p-100 align-center">
         <?php
         $html = "";
-        $category = getCategories();
-        if($category === false) {
-            $html .= "Failed to retrieve information from database.";
+        $categories = getCategories();
+        $categoriesPerRow = 4;
+        $totalCategories = count($categories);
+        
+        // Calculate the number of items needed to complete the last row
+        $remainingItems = $categoriesPerRow - ($totalCategories % $categoriesPerRow);
+        
+        // Add empty placeholders to the categories array
+        for ($i = 0; $i < $remainingItems; $i++) {
+            $categories[] = ['type' => '', 'file_name' => '', 'alt' => ''];
         }
-        for($i = 0; $i < count($category); $i++) {
-            $html .= 
-            "<section class='boxed'>
-                <div class='cat-wrapper'>
-                    <div class='cat-item'>
-                        <a href='//localhost/homehive/category/" . strtolower($category[$i]['type']) ."'>
-                            <img src='./assets/img/" . $category[$i]['file_name'] . "' alt='" . $category[$i]['alt'] . "'>
-                            <h3>" . $category[$i]['type'] ."</h3>
-                        </a>
-                    </div>
-                </div>
-            </section>
-            ";
+
+        foreach (array_chunk($categories, $categoriesPerRow) as $rowCategories) {
+        $html .= "<div class='all-columns archive-columns flex'>";
+            foreach ($rowCategories as $category) {
+                $type = $category['type'];
+                $file_name = $category['file_name'];
+                $alt = $category['alt'];
+                
+                $category_url = "//localhost/homehive/category/" . strtolower($type);
+                $img_src = "./assets/img/" . $file_name;
+                
+                $html .= 
+                "<div class='archive-item'>
+                    <a href='$category_url'>
+                        <img src='$img_src' alt='$alt'>
+                        <h3>$type</h3>
+                    </a>
+                </div>";
+            }
+            $html .= "</div>";
         }
         echo $html;
-        ?>
+    ?>
     </section>
+
+    <?php include ('templates/footer.php'); ?>
 </html>
