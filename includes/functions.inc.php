@@ -273,4 +273,22 @@ function get_popular_properties($limit = 4) {
     }
     return $propertyIds;
 }
+
+function sendContactEmail($name, $email, $message) {
+    $to = '';
+    $subject = 'New Contact Form Submission';
+    $headers = "From: $email\r\n";
+    $headers .= "Reply-To: $email\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+    $messageBody = "<html><body>";
+    $messageBody .= "<h2>New Contact Form Submission</h2>";
+    $messageBody .= "<p><strong>Name:</strong> $name</p>";
+    $messageBody .= "<p><strong>Email:</strong> $email</p>";
+    $messageBody .= "<p><strong>Message:</strong> $message</p>";
+    $messageBody .= "</body></html>";
+
+    return mail($to, $subject, $messageBody, $headers);
+}
 ?>

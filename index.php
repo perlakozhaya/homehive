@@ -84,18 +84,29 @@
         <div class="af-card">
         <?php 
         if(isset($_SESSION['user'])) { ?>
+<<<<<<< HEAD
+            <a href="//localhost/homehive/admin/host.php">
+=======
             <a href="//localhost/homehive/admin/host.php?action=add">
+>>>>>>> 938b9bf539ab36e3e65b4dded6dea12abec37ba5
         <?php
         }
         else { ?>
             <a href="//localhost/homehive/login.php">
         <?php
         } ?>
+<<<<<<< HEAD
+             <div class="af-card">
+                <img src="//localhost/homehive/assets/img/man-in-a-suit-holding-a-toy-house (500x500).jpg" alt="Man in a suit holding a toy house">
+                <h3> Become a Host</h3>
+            </div>
+=======
                 <img src="//localhost/homehive/assets/img/man-in-a-suit-holding-a-toy-house (500x500).jpg" alt="Man in a suit holding a toy house">
                 <h3 class="--color-white">Become a Host</h3>
                 <div class="overlay"></div>
             </a>
         </div>
+>>>>>>> 938b9bf539ab36e3e65b4dded6dea12abec37ba5
     </section>
 
     <?php include('templates/footer.php'); ?>

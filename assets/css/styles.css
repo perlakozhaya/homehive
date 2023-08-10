@@ -110,6 +110,10 @@ i {
     display: grid;
 }
 
+.form-group.file input {
+    border: none;
+}
+
 .body-wrapper {
     min-height: 100vh;
     min-height: 100dvh;
@@ -369,6 +373,10 @@ div#error-message {
     background-size: cover;
     background-position: center center;
     min-height: 100vh;
+}
+
+.contact-form .form-group label {
+    color: var(--color-bg) !important;
 }
 
 .contact-bg .flex {
