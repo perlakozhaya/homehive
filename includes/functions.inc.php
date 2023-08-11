@@ -144,7 +144,7 @@ function displayProperty($propertyIds) {
             } 
             else {
                 $filename = $rowProperties[$i]['file_name'];
-                $image_url = "./assets/img/" . ($filename ? "uploads/$filename" : "custom-image-placeholder.jpg");
+                $image_url = "/homehive/assets/img/" . ($filename ? "uploads/$filename" : "custom-image-placeholder.jpg");
 
                 $alt = $rowProperties[$i]['description'];
                 $image_alt = ($alt ? $alt : "Custom image placeholder of a house with trees");
@@ -275,20 +275,35 @@ function get_popular_properties($limit = 4) {
 }
 
 function sendContactEmail($name, $email, $message) {
-    $to = '';
+    $to = 'homehive@gmail.com';
     $subject = 'New Contact Form Submission';
     $headers = "From: $email\r\n";
     $headers .= "Reply-To: $email\r\n";
-    $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    // $headers .= "MIME-Version: 1.0\r\n";
+    // $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
-    $messageBody = "<html><body>";
-    $messageBody .= "<h2>New Contact Form Submission</h2>";
-    $messageBody .= "<p><strong>Name:</strong> $name</p>";
-    $messageBody .= "<p><strong>Email:</strong> $email</p>";
-    $messageBody .= "<p><strong>Message:</strong> $message</p>";
-    $messageBody .= "</body></html>";
+    $messageBody = "";
+    $messageBody .=  $name . "\n"; 
+    $messageBody .= $message;
+  
 
     return mail($to, $subject, $messageBody, $headers);
 }
+
+function show_listed_properties($userId){
+    global $connection ;
+    $query = " SELECT property_id 
+    FROM property 
+    WHERE user_id = $userId";
+
+    $result = mysqli_query($connection, $query);
+    if (!$result){
+        return false;
+    } 
+    while ($row = mysqli_fetch_assoc($result)){
+        $propertyIds[] = $row['property_id'];
+    }
+    return $propertyIds;
+}
+
 ?>
