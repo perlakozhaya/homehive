@@ -39,6 +39,28 @@ function getRandomToken() {
     return hash('sha256', time() * rand() * 3228432);
 }
 
+function sendContactEmail($name, $email, $message) {
+    $to = 'homehive@gmail.com';
+    $subject = 'New Contact Form Submission';
+    $headers = "From: $email\r\n";
+    $headers .= "Reply-To: $email\r\n";
+    // $headers .= "MIME-Version: 1.0\r\n";
+    // $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+    $messageBody = "";
+    $messageBody .=  $name . "\n"; 
+    $messageBody .= $message;
+  
+
+    return mail($to, $subject, $messageBody, $headers);
+}
+
+function capitalizeString($input) {
+    $firstChar = strtoupper($input[0]);
+    $myString = strtolower(substr($input, 1));
+    return $firstChar . $myString;
+}
+
 function slug($title) {
     global $connection;
     $slug = strtolower(str_replace(' ', '-', $title));
@@ -213,25 +235,20 @@ function get_property_id_by_address($location) {
 
 function get_property_id_by_type($category) {
     global $connection;
-    $query = "SELECT property_id
-    FROM property_type
-    WHERE description = '$category'";
+    $query = "SELECT P.property_id
+    FROM property_type PT INNER JOIN property P ON PT.property_type_id = P.property_type_id
+    WHERE PT.description = '$category'";
     $result = mysqli_query($connection, $query);
 
-    // Handle the database query error
-    if (!$result) {
-        return array('propertyIds' => false, 'display' => "Error retrieving data.");
-    }
-    // Handle the case when no property was found in $location
     if (mysqli_num_rows($result) <= 0) {
-        return array('propertyIds' => false, 'display' => "No property was found.");
+        return false;
     }
-    // else store the obtained property ids
+
     $propertyIds = array();
     while ($row = mysqli_fetch_assoc($result)) {
         $propertyIds[] = $row['property_id'];
     }
-    return array('propertyIds' => $propertyIds, 'display' => "");
+    return $propertyIds;
 }
 
 function get_latest_properties($limit = 4) {
@@ -272,22 +289,6 @@ function get_popular_properties($limit = 4) {
         $propertyIds[] = $row['property_id'];
     }
     return $propertyIds;
-}
-
-function sendContactEmail($name, $email, $message) {
-    $to = 'homehive@gmail.com';
-    $subject = 'New Contact Form Submission';
-    $headers = "From: $email\r\n";
-    $headers .= "Reply-To: $email\r\n";
-    // $headers .= "MIME-Version: 1.0\r\n";
-    // $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
-    $messageBody = "";
-    $messageBody .=  $name . "\n"; 
-    $messageBody .= $message;
-  
-
-    return mail($to, $subject, $messageBody, $headers);
 }
 
 function show_listed_properties($userId){
