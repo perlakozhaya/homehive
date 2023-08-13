@@ -22,6 +22,7 @@ if (isset($_POST['email']) && $_POST['email'] != '' &&
 		}
 		
         header("location:index.php");
+		exit;
 	}
 	else {
 		$loginFailed = true;

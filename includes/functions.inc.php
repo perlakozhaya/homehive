@@ -39,22 +39,6 @@ function getRandomToken() {
     return hash('sha256', time() * rand() * 3228432);
 }
 
-function sendContactEmail($name, $email, $message) {
-    $to = 'homehive@gmail.com';
-    $subject = 'New Contact Form Submission';
-    $headers = "From: $email\r\n";
-    $headers .= "Reply-To: $email\r\n";
-    // $headers .= "MIME-Version: 1.0\r\n";
-    // $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
-    $messageBody = "";
-    $messageBody .=  $name . "\n"; 
-    $messageBody .= $message;
-  
-
-    return mail($to, $subject, $messageBody, $headers);
-}
-
 function capitalizeString($input) {
     $firstChar = strtoupper($input[0]);
     $myString = strtolower(substr($input, 1));
@@ -78,6 +62,29 @@ function slug($title) {
         // $slug .= '-' . uniqid();
         $counter++;
     }
+}
+
+function send_email_admin($name, $email, $message) {
+    global $config;
+    $to = "info@homehive.com";
+    $from = $email;
+    $subject = "New Contact Form Submission";
+    $body = "<p>Hello, " . $config['SITE_TITLE'] . "</p>";
+    $body .= "<p>You have received a new message from $name</p>";
+    $body .= "<p>$message</p>";
+
+    return mail($to, $subject, $body, "from: $from");
+}
+
+function send_email_visitor($name, $email) {
+    $to = $email;
+    $from = "info@homehive.com";
+    $subject = "Your message has been received";
+    $body = "<p>Dear $name, </p>";
+    $body .= "<p>Your message has been received</p>";
+    $body .= "<p>Have a nice day!</p>";
+
+    return mail($to, $subject, $body, "from: $from");
 }
 
 function getPropertyIds() {
@@ -292,13 +299,29 @@ function get_popular_properties($limit = 4) {
 }
 
 function show_listed_properties($userId){
-    global $connection ;
-    $query = " SELECT property_id 
+    global $connection;
+    $query = "SELECT property_id 
     FROM property 
+    WHERE user_id = $userId";
+    $result = mysqli_query($connection, $query);
+
+    if (mysqli_num_rows($result) == 0) {
+        return false;
+    }
+    while ($row = mysqli_fetch_assoc($result)){
+        $propertyIds[] = $row['property_id'];
+    }
+    return $propertyIds;
+}
+
+function show_rented_properties($userId){
+    global $connection;
+    $query = "SELECT property_id 
+    FROM rent_agreement 
     WHERE user_id = $userId";
 
     $result = mysqli_query($connection, $query);
-    if (!$result){
+    if (mysqli_num_rows($result) == 0){
         return false;
     } 
     while ($row = mysqli_fetch_assoc($result)){

@@ -4,4 +4,5 @@ if(isset($_SESSION["user"])) {
     unset($_SESSION["user"]);
     setcookie("login_token", "", time() - 1, "/");
     header("location:index.php");
+    exit;
 }

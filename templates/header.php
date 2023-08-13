@@ -19,10 +19,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
     
     <!-- My CSS -->
-    <link href="/homehive/assets/css/styles.css" rel="stylesheet">
+    <link href="/homehive/assets/css/styles.css?v=1.0" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
-    <link href="/homehive/assets/font-awesome/css/all.css?v=1.0" rel="stylesheet">
+    <link href="/homehive/assets/font-awesome/css/all.css" rel="stylesheet">
 
     <title><?php echo $pageTitle; ?></title>
 </head>

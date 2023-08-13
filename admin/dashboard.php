@@ -10,6 +10,7 @@
     <?php } 
     else {
         header("location: /homehive/index.php");
+        exit;
     } ?>
 
     <?php include('../templates/footer.php'); ?>

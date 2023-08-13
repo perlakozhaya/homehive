@@ -30,6 +30,7 @@ if (
             mysqli_query($connection, $query);
 
             header("location:login.php");
+            exit;
         }
         else {
             $error = "Email already exists";
