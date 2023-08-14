@@ -57,7 +57,9 @@
             <p>Already have an account? <a href="login.php">Login Now</a></p>
         </div>
     </section>
-
+    <script>
+        document.getElementById('confirm-password').addEventListener('input', validatePassword);
+    </script>
     <script src="assets/js/main.js"></script>
 </body>
 

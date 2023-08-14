@@ -7,5 +7,5 @@
             </footer>
     </div>
     <!-- External JS Script -->
-    <script src="assets/js/main.js" type=""></script>
+    <script src="/homehive/assets/js/main.js"></script>
 </body>

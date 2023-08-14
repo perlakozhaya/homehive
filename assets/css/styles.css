@@ -492,3 +492,66 @@ div#error-message {
 .empty {
     color: var(--color-text);
 }
+
+/* Dashboard Sidebar */
+.sidebar {
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--color-secondary);
+    overflow-x: hidden;
+    width: 0;
+}
+
+.sidebar .side-header {
+    padding: 1em;
+    position: relative;
+}
+
+.sidebar .side-header .p-image-container {
+    width: 120px;
+    padding-bottom: 120px;
+    border-radius: 50%;
+}
+
+.sidebar .side-nav a {
+    padding: .5em 1em;
+    color: var(--color-bg);
+    transition: background-color 0.3s;
+    align-items: center;
+}
+.sidebar .side-nav a:hover {
+    background-color: rgba(128, 128, 128, 0.5);
+}
+@media only screen and (max-width: 600px) {
+    .sidebar .side-nav a {
+        flex-direction: row;
+    }
+}
+
+.sidebar .side-nav a i {
+    flex: 0.1;
+    color: var(--color-bg);
+}
+
+.dashboard-wrapper .dashboard-main {
+    padding-left: 250px;
+}
+@media only screen and (max-width: 600px) {
+    .dashboard-wrapper .dashboard-main {
+        padding-left: 0;
+    }
+}
+
+.sidebar .side-nav .close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.open-sidebar .open-btn {
+    border: none;
+    background: none;
+    font-size: 1em;
+}

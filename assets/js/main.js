@@ -14,4 +14,39 @@ function validatePassword() {
         // registerButton.classList.remove('disable-element');
     }
 }
-document.getElementById('confirm-password').addEventListener('input', validatePassword);
+
+function openNav() {
+    document.getElementById("sidebar").style.width = "250px";
+    document.getElementById("open-sidebar").style.display = "none";
+    document.getElementById("dashboard-main").style.marginLeft = "250px";
+    document.getElementById("open-sidebar").style.display = "none";
+}
+
+function closeNav() {
+    document.getElementById("sidebar").style.width = "0";
+    document.getElementById("open-sidebar").style.marginLeft = "0";
+    document.getElementById("open-sidebar").style.display = "block";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    var sidebarLinks = document.querySelectorAll(".side-nav a");
+
+    sidebarLinks.forEach(function(link) {
+        link.addEventListener("click", function(event) {
+            event.preventDefault();
+            var contentUrl = link.getAttribute("data-content");
+            loadContent(contentUrl);
+        });
+    });
+
+    function loadContent(url) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById("dashboard-content").innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send();
+    }
+});
