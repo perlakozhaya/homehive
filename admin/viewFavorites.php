@@ -1,4 +1,4 @@
-<?php $pageTitle = "My Tenants"; ?>
+<?php $pageTitle = "My Saved Properties"; ?>
 <!DOCTYPE html>
 <html lang="en">
 <?php include("../templates/dashboard-head.php") ?>
@@ -10,39 +10,31 @@
             
             <main class="dashboard-main boxed p-50" id="dashboard-main">
                 <section class="boxed p-50 large-spacing">
-                    <h2>My Tenants</h2>
+                    <h2>Favorites</h2>
                     <?php
                     $html = "";
                     $userId = $_SESSION["user"]["user_id"];
-                    $tenantIds = getTenantIds($userId);
-                    if($tenantIds === false) {
+                    $propertyIds = getSavedProperties($userId);
+                    if($propertyIds === false) {
                         $html .= 
-                        "<p>No active tenants found for your listed properties.</p>";
+                        "<p>No saved properties were found! <a href='../properties.php'>Browse Properties</a></p>";
                     }
                     else {
                     ?>
                         <table class="table-display">
                             <thead>
                                 <tr>
-                                    <th>T.N.</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
                                     <th>P.N.</th>
-                                    <th>Total Amount</th>
-                                    <th>Amount Paid</th>
-                                    <th>Amount Due</th>
+                                    <th>Title</th>
                                     <th><i class="fa fa-pen"></i></th>
                                     <th><i class="fa fa-delete-left"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $query = "SELECT u.user_id as tenant_id, u.name, u.email, u.phone, p.property_id, r.total_amount, r.amount_paid, r.amount_due
-                                FROM rent_agreement r
-                                INNER JOIN user u ON r.user_id = u.user_id
-                                INNER JOIN property p ON r.property_id = p.property_id
-                                WHERE r.user_id IN (" . implode(",", $tenantIds) . ")";
+                                $query = "SELECT property_id, title
+                                FROM property
+                                WHERE property_id IN (" . implode(",", $propertyIds) . ")";
                     
                                 $result = mysqli_query($connection, $query);
                                 
@@ -50,19 +42,8 @@
                                     while ($row = mysqli_fetch_assoc($result)) {
                                 ?>
                                 <tr>
-                                    <td><?=$row["tenant_id"]?></td>
-                                    <td><?=$row["name"]?></td>
-                                    <td><?=$row["email"]?></td>
-                                    <td>
-                                        <?php
-                                        $phone = $row["phone"];
-                                        echo ($phone ? $phone : "-" );
-                                        ?>
-                                    </td>
                                     <td><?=$row["property_id"]?></td>
-                                    <td><?=$row["total_amount"]?></td>
-                                    <td><?=$row["amount_paid"]?></td>
-                                    <td><?=$row["amount_due"]?></td>
+                                    <td><?=$row["title"]?></td>
                                     <td><a href="viewTenants.php?action=edit">Edit</a></td>
                                     <td><a href="viewTenants.php?action=delete">Delete</a></td>
                                 </tr>

@@ -330,4 +330,64 @@ function show_rented_properties($userId){
     return $propertyIds;
 }
 
+function getTenantIds($userId) {
+    global $connection;
+    $query = "SELECT RA.user_id as tenant_id
+    FROM rent_agreement RA INNER JOIN property P ON RA.property_id = P.property_id
+    WHERE P.user_id = '$userId'";
+
+    $result = mysqli_query($connection, $query);
+    if(mysqli_num_rows($result) == 0) {
+        return false;
+    }
+    else {
+        while($row = mysqli_fetch_assoc($result)) {
+            $tenantIds[] = $row["tenant_id"];
+        }
+    }
+    return $tenantIds;
+}
+
+function getSavedProperties($userId) {
+    global $connection;
+    $query = "SELECT property_id
+    FROM property
+    WHERE property_id IN (SELECT property_id FROM favorites WHERE user_id = '$userId')";
+
+    $result = mysqli_query($connection, $query);
+
+    if (mysqli_num_rows($result) == 0) {
+        return false;
+    }
+    else {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $propertyIds[] = $row['property_id'];
+        }
+    }
+    return $propertyIds;
+}
+
+function getReviews($userId) {
+    global $connection;
+    $query = "SELECT r.rating, r.comment, p.title , p.property_id
+    FROM review r
+    INNER JOIN rent_agreement ra ON r.user_id = ra.user_id AND r.property_id = ra.property_id
+    INNER JOIN property p ON ra.property_id = p.property_id 
+    WHERE r.user_id = '$userId'";
+
+    $result = mysqli_query($connection, $query);
+    if (mysqli_num_rows($result) == 0) {
+        return false;
+    } else {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $reviewTable[] = array (
+            "property_id" => $row["property_id"],
+            "title" => $row["title"],
+            "rating" => $row["rating"],
+            "comment" => $row["comment"]
+            );
+        }
+    }
+    return $reviewTable;
+}
 ?>

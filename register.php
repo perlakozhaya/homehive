@@ -47,19 +47,17 @@
                 <div class="form-group">
                     <label for="confirm-password">Confirm Password</label>
                     <input type="password" name="confirm-password" id="confirm-password" required>
-                    <div id="error-message"></div>
+                    <div id="error-message" class="error-message"></div>
                 </div>
                 <div>
-                    <button class="btn" type="submit" name="submit" id="register-button">Register</button>
+                    <button class="btn" type="submit" name="submit" id="submit-button">Register</button>
                 </div>
             </form>
             <div><?php echo $error ?></div>
             <p>Already have an account? <a href="login.php">Login Now</a></p>
         </div>
     </section>
-    <script>
-        document.getElementById('confirm-password').addEventListener('input', validatePassword);
-    </script>
+
     <script src="assets/js/main.js"></script>
 </body>
 

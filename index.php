@@ -55,19 +55,19 @@
 
     <!-- Newly Listed -->
     <?php $propertyIds = get_latest_properties(); ?>
-    <section class="boxed properties-info">
+    <section class="boxed p-50 large-spacing">
         <h2 class="align-center">Newly Listed</h2>
         <?php
-        echo displayProperty($propertyIds);
+        echo "<div class='p-wrapper'>" . displayProperty($propertyIds) . "</div>";
         ?>
     </section>
 
     <!-- Popular Rentals -->
     <?php $propertyIds = get_popular_properties(); ?>
-    <section class="boxed properties-info">
+    <section class="boxed p-50 large-spacing">
         <h2 class="align-center">Popular Rentals</h2>
         <?php
-        echo displayProperty($propertyIds);
+        echo "<div class='p-wrapper'>" . displayProperty($propertyIds) . "</div>";
         ?>
     </section>
         

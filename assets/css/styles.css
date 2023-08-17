@@ -56,6 +56,12 @@ h3 {
 }
 
 h4 {
+    color: var(--color-text);
+    font-size: var(--fs-400);
+    font-weight: 500;
+}
+
+h5 {
     color: var(--color-primary);
     font-size: var(--fs-300);
     text-transform: uppercase;
@@ -81,6 +87,15 @@ button {
 
 i {
     color: var(--color-text);
+}
+
+fieldset {
+    border: none;
+    padding: 0;
+}
+
+legend {
+    margin-bottom: 5px;
 }
 
 .form-group input,
@@ -289,7 +304,7 @@ i {
     }
 }
 
-/* footer styling */
+/* Footer Styling */
 .f-block {
     background-color: var(--color-secondary);
 }
@@ -350,7 +365,7 @@ i {
     border-radius: 50px;
 }
 
-/* login + register */
+/* login + Register */
 .form-bg {
     min-height: 100vh;
     background-image: url('//localhost/homehive/assets/img/login-reg-bg.jpg');
@@ -366,7 +381,8 @@ i {
     border-radius: 20px;
 }
 
-div#error-message {
+div.error-message, 
+span.req-sybmol {
     color: red;
     font-size: var(--fs-300);
 }
@@ -380,7 +396,7 @@ div#error-message {
 }
 
 .contact-form .form-group label {
-    color: var(--color-bg) !important;
+    color: var(--color-bg);
 }
 
 .contact-bg .flex {
@@ -400,15 +416,7 @@ div#error-message {
     margin: 1em 0;
 }
 
-/* properties */
-.properties-info h2 {
-    margin-bottom: 50px;
-}
-.properties-info {
-    padding: 50px 0;
-}
-
-/* above footer */
+/* Above Footer */
 .af-block {
     justify-content: space-between;
 }
@@ -535,23 +543,45 @@ div#error-message {
     color: var(--color-bg);
 }
 
-.dashboard-wrapper .dashboard-main {
-    padding-left: 250px;
-}
-@media only screen and (max-width: 600px) {
-    .dashboard-wrapper .dashboard-main {
-        padding-left: 0;
-    }
-}
-
 .sidebar .side-nav .close-btn {
     position: absolute;
     top: 0;
     right: 0;
 }
 
-.open-sidebar .open-btn {
-    border: none;
-    background: none;
-    font-size: 1em;
+.open-btn i {
+    padding: 1em;
+    transition: background-color 0.3s;
+    color: var(--color-primary);
+}
+.open-btn i:hover {
+    background-color: #ffeec3;
+}
+
+/* Dashboard Content */
+.table-display {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.table-display td,
+.table-display th {
+    width: fit-content;
+    padding: .5em;
+}
+
+.table-display th,
+.table-display th i {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+}
+
+.table-display tr:nth-child(even) {
+    background-color: #ffeec3;
+}
+
+.table-cell.p-image-container {
+    width: 40px;
+    padding-bottom: 40px;
+    border-radius: 0px;
 }
