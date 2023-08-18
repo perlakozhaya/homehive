@@ -397,11 +397,15 @@ function getSavedProperties($userId) {
 
 function getReviews($userId) {
     global $connection;
-    $query = "SELECT r.rating, r.comment, p.title , p.property_id
-    FROM review r
-    INNER JOIN rent_agreement ra ON r.user_id = ra.user_id AND r.property_id = ra.property_id
-    INNER JOIN property p ON ra.property_id = p.property_id 
-    WHERE r.user_id = '$userId'";
+    $query = "SELECT P.property_id, P.title, R.rating, R.comment
+    FROM property P
+    INNER JOIN rent_agreement RA ON P.property_id = RA.property_id
+    INNER JOIN (
+        SELECT ra.property_id, r.rating, r.comment
+        FROM review r
+        INNER JOIN rent_agreement ra ON r.rent_agreement_id = ra.rent_agreement_id 
+        WHERE r.user_id = '$userId'
+    ) R ON P.property_id = R.property_id;";
 
     $result = mysqli_query($connection, $query);
     if (mysqli_num_rows($result) == 0) {
