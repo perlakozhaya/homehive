@@ -1,4 +1,5 @@
 <?php
+session_set_cookie_params(3600); // Set cookie to last 1 hour
 session_start();
 function cleanInput($input) {
         $input = stripslashes($input);
@@ -45,9 +46,8 @@ function capitalizeString($input) {
     return $firstChar . $myString;
 }
 
-function slug($title) {
+function setUniqueSlug($slug) {
     global $connection;
-    $slug = strtolower(str_replace(' ', '-', $title));
     $originalSlug = $slug;
     $counter = 1;
     while (true) {
@@ -59,7 +59,6 @@ function slug($title) {
             return $slug;
         }
         $slug = $originalSlug . '-' . $counter;
-        // $slug .= '-' . uniqid();
         $counter++;
     }
 }
@@ -138,7 +137,7 @@ function getCities() {
 function displayProperty($propertyIds) {
     global $connection;
     $html = "";
-    $query = "SELECT M.file_name, M.description, P.title, P.price_per_night, PT.description as property_type, A.country, A.state, A.city, R.rating
+    $query = "SELECT M.file_name, M.description, P.title, P.slug, P.price_per_night, PT.description as property_type, A.country, A.state, A.city, R.rating
     FROM property P
     INNER JOIN property_type PT ON P.property_type_id = PT.property_type_id
     INNER JOIN address A ON P.address_id = A.address_id
@@ -208,7 +207,7 @@ function displayProperty($propertyIds) {
                         <div class='p-rating'>" . $starRating . "</div>
                         <p class='p-price'>" . $price . "</p>
                     </div>
-                    <a class='p-button' href='//localhost/homehive/property/" . slug($title) . "'>View Details</a>
+                    <a class='p-button' href='//localhost/homehive/property/" . $rowProperties[$i]['slug'] . "'>View Details</a>
                 </div>";
             }
         }
@@ -258,6 +257,19 @@ function get_property_id_by_type($category) {
     return $propertyIds;
 }
 
+function get_title_by_slug($slug) {
+    global $connection;
+    $query = "SELECT title
+    FROM property
+    WHERE slug = '$slug'";
+    $result = mysqli_query($connection, $query);
+    if(!$result) {
+        return false;
+    }
+    $row = mysqli_fetch_assoc($result);
+    return $row['title'];
+}
+
 function get_latest_properties($limit = 4) {
     global $connection;
     $query = "SELECT property_id
@@ -296,6 +308,22 @@ function get_popular_properties($limit = 4) {
         $propertyIds[] = $row['property_id'];
     }
     return $propertyIds;
+}
+
+function get_property_details($slug) {
+    global $connection;
+    $query = "SELECT P.*, A.*, PT.description as type, U.name, U.email, U.phone
+    FROM property P
+    INNER JOIN address A ON P.address_id = A.address_id
+    INNER JOIN property_type PT ON P.property_type_id = PT.property_type_id
+    INNER JOIN user U ON P.user_id = U.user_id
+    WHERE P.slug = '$slug'";
+    $result = mysqli_query($connection, $query);
+    if(mysqli_num_rows($result) == 0) {
+        return false;
+    }
+    $details[] = mysqli_fetch_assoc($result);
+    return $details;
 }
 
 function show_listed_properties($userId){
@@ -389,5 +417,13 @@ function getReviews($userId) {
         }
     }
     return $reviewTable;
+}
+
+function deleteProperty($propertyId) {
+    global $connection;
+    $query = "UPDATE property
+    SET status = '-1'
+    WHERE property_id = $propertyId";
+    return $result = mysqli_query($connection, $query);
 }
 ?>

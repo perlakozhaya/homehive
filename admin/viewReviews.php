@@ -50,10 +50,6 @@
                                 ?>
                             </tbody>
                         </table>
-                        <a href="viewTenants.php?action=add">
-                            <i class="fa fa-plus" style="color: var(--color-primary);"></i>
-                            <span>Add</span>
-                        </a>
                     <?php
                         }
                     echo $html;

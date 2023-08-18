@@ -382,9 +382,14 @@ legend {
 }
 
 div.error-message, 
-span.req-sybmol {
+span.req-symbol {
     color: red;
     font-size: var(--fs-300);
+}
+
+.tooltip {
+    font-size: 7px;
+    cursor: pointer;
 }
 
 /* Contact */

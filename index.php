@@ -84,7 +84,7 @@
         <div class="af-card">
         <?php 
         if(isset($_SESSION['user'])) { ?>
-            <a href="//localhost/homehive/admin/host.php">
+            <a href="//localhost/homehive/admin/viewListedProperties.php?action=add">
         <?php
         }
         else { ?>

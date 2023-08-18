@@ -26,7 +26,6 @@
                                 <tr>
                                     <th>P.N.</th>
                                     <th>Title</th>
-                                    <th><i class="fa fa-pen"></i></th>
                                     <th><i class="fa fa-delete-left"></i></th>
                                 </tr>
                             </thead>
@@ -44,8 +43,7 @@
                                 <tr>
                                     <td><?=$row["property_id"]?></td>
                                     <td><?=$row["title"]?></td>
-                                    <td><a href="viewTenants.php?action=edit">Edit</a></td>
-                                    <td><a href="viewTenants.php?action=delete">Delete</a></td>
+                                    <td><a href="viewTenants.php?action=delete">Remove from Favorites</a></td>
                                 </tr>
                                     <?php
                                     }
@@ -53,10 +51,6 @@
                                 ?>
                             </tbody>
                         </table>
-                        <a href="viewTenants.php?action=add">
-                            <i class="fa fa-plus" style="color: var(--color-primary);"></i>
-                            <span>Add</span>
-                        </a>
                     <?php
                         }
                     echo $html;

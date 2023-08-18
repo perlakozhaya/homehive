@@ -33,8 +33,7 @@
                                     <th>Status</th>
                                     <th>Date</th>
                                     <th>Details</th>
-                                    <th><i class="fa fa-pen"></i></th>
-                                    <th><i class="fa fa-delete-left"></i></th>
+                                    <th><i class="fa fa-cancel"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,8 +79,7 @@
                                         echo "<a href='//localhost/homehive/property/" . $row["slug"] . "' target='_blank'>View</a>";
                                         ?>
                                     </td>
-                                    <td><a href="viewListedProperties.php?action=edit">Edit</a></td>
-                                    <td><a href="viewListedProperties.php?action=delete">Delete</a></td>
+                                    <td><a href="viewListedProperties.php?action=delete">Cancel Reservation</a></td>
                                 </tr>
                                     <?php
                                     }
@@ -89,7 +87,7 @@
                                 ?>
                             </tbody>
                         </table>
-                        <a href="viewListedProperties.php?action=add">
+                        <a href="../properties.php">
                             <i class="fa fa-plus" style="color: var(--color-primary);"></i>
                             <span>Add</span>
                         </a>
