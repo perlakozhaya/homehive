@@ -53,11 +53,13 @@ $title = $details["title"];
                     </ul>
     
                     <ul class="p-list">
-                        <h5>Amenities</h5>
                         <?php
                         $amenities = get_property_amenities($slug);
-                        foreach($amenities as $amenity) {
-                            echo "<li>$amenity</li>";
+                        if($amenities) {
+                            echo "<h5>Amenities</h5>";
+                            foreach($amenities as $amenity) {
+                                echo "<li>$amenity</li>";
+                            }
                         }
                         ?>
                     </ul>

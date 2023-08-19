@@ -45,6 +45,15 @@ function capitalizeString($input) {
     return $firstChar . $myString;
 }
 
+function isCommaSeparatedLetters($input) {
+    $pattern = '/^[a-zA-Z]+(,[a-zA-Z]+)*$/';
+    return preg_match($pattern, $input) === 1;
+}
+
+function getExtension($myFile) {
+    return pathinfo($myFile, PATHINFO_EXTENSION);
+}
+
 function setUniqueSlug($slug) {
     global $connection;
     $originalSlug = $slug;
@@ -345,9 +354,25 @@ function get_property_details($slug) {
     return $details;
 }
 
+function get_amenities()
+{
+
+    global $connection;
+    $query = "SELECT * from amenity";
+    $result = mysqli_query($connection, $query);
+    if(mysqli_num_rows($result) === 0) {
+        return false;
+    }
+    while($row = mysqli_fetch_array($result)) {
+        $amenities[] = array("amenity_id"=>$row["amenity_id"],"description"=>$row["description"]);
+    }
+    return $amenities;
+
+}
+
 function get_property_amenities($slug) {
     global $connection;
-    $query = "SELECT Am.description as amenity
+    $query = "SELECT Am.amenity_id as amenity
     FROM amenity Am
     INNER JOIN property_amenity PA ON Am.amenity_id = PA.amenity_id
     INNER JOIN property P ON P.property_id = PA.property_id

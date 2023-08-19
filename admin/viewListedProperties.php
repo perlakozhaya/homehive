@@ -4,6 +4,8 @@
     if(!isset($_SESSION["user"])) header("location: /homehive/index.php");
     $userId = $_SESSION["user"]["user_id"];
     $action = isset($_GET["action"])?$_GET["action"]:"view";
+    $v_amenities = get_amenities();
+    $error = "";
 ?>
 <body>
     <div class="body-wrapper">
@@ -114,19 +116,21 @@
                     $postal_code = "";        
                     $description = "";    
                     $file_name = "";    
+                    $amenities = array();
                     
                     if($action == "edit" && isset($_GET["property_id"])) { // if the action = edit and isset property id, so the user is editing a property
                         $property_id = intval($_GET["property_id"]);
                         // below we are checking if isset the fields, so the user has edited the property and submitted the form 
-                        if(isset($_POST["title"]) && !empty($_POST["title"]) &&
-                        isset($_POST["slug"]) && !empty($_POST["slug"]) &&
-                        isset($_POST["type"]) && !empty($_POST["type"]) &&
-                        isset($_POST["country"]) && !empty($_POST["country"]) &&
-                        isset($_POST["state"]) && !empty($_POST["state"]) &&
-                        isset($_POST["city"]) && !empty($_POST["city"]) &&
-                        isset($_POST["street"]) && !empty($_POST["street"]) &&
-                        isset($_POST["postal_code"]) && !empty($_POST["postal_code"]) &&
-                        isset($_POST["description"]) && !empty($_POST["description"])
+                        if(
+                            isset($_POST["title"]) && !empty($_POST["title"]) &&
+                            isset($_POST["slug"]) && !empty($_POST["slug"]) &&
+                            isset($_POST["type"]) && !empty($_POST["type"]) &&
+                            isset($_POST["country"]) && !empty($_POST["country"]) &&
+                            // isset($_POST["state"]) && !empty($_POST["state"]) &&
+                            isset($_POST["city"]) && !empty($_POST["city"]) &&
+                            isset($_POST["street"]) && !empty($_POST["street"]) 
+                            // isset($_POST["postal_code"]) && !empty($_POST["postal_code"]) &&
+                            // isset($_POST["description"]) && !empty($_POST["description"]) 
                         ) {
                             $slug = cleanInput($_POST["slug"]);
                             $slug = strtolower(str_replace(' ', '-', $slug));
@@ -140,24 +144,68 @@
                             $street = cleanInput($_POST["street"]);
                             $postal_code = cleanInput($_POST["postal_code"]);
                             $description = cleanInput($_POST["description"]);
-                            // $file_name + media gallery
+                            $amenities = $_POST["amenities"];
+                            
+                            // Image Validation
+                            $file_name = "";
+                            if(isset($_FILES["image"]) &&
+                            $_FILES["image"]["error"] == 0 &&
+                            $_FILES["image"]["size"] > 0 &&
+                            $_FILES["image"]["type"] == "image/jpeg" &&
+                            isset($_POST["image"]) && !empty($_POST["image"])
+                            ) {
+                                $file_name .= strtolower(str_replace(" ", "-", $_FILES["image"]["name"]));
+                                $directory = "/homehive/assets/img/uploads/";
+                                if (!is_dir($directory)) {
+                                    mkdir($directory, 0777, true);
+                                }
+                                $file_path = $directory . "/" . $file_name . "." . getExtension($_FILES["image"]["name"]);
 
-                            $query =  "UPDATE property SET 
+                                if(move_uploaded_file($_FILES["image"]["tmp_name"], $file_path)) {
+                                    $error .= "File uploaded successfully!";
+                                }
+                                else {
+                                    echo "Failed to move file";
+                                }
+                            }
+                            $query = "UPDATE property SET 
                             title = '$title',
                             slug = '$slug',
-                            type = '$type',
-                            country = '$country',
-                            state = '$state',
-                            city = '$city',
-                            street = '$street',
-                            postal_code = '$postal_code',
                             description = '$description'
                             WHERE property_id = '$property_id'";
 
                             $result = mysqli_query($connection, $query);
 
                             if($result) {
-                                header("location:/homehive/admin/viewListedProperties.php?action=view");
+
+                                $query = "UPDATE address
+                                INNER JOIN property ON address.address_id = property.address_id
+                                SET address.country = '$country',
+                                    address.state = '$state',
+                                    address.city = '$city',
+                                    address.street = '$street',
+                                    address.postal_code = '$postal_code'
+                                WHERE property.property_id = '$property_id'";
+                                mysqli_query($connection, $query);
+    
+                                $query = "UPDATE property_type 
+                                INNER JOIN property ON property_type.property_type_id = property.property_type_id
+                                SET description = '$type'
+                                where property.property_id = '$property_id' ";
+                                mysqli_query($connection, $query);    
+
+                                $query = "UPDATE media 
+                                INNER JOIN property ON media.media_id = property.media_id
+                                SET file_name = '$file_name'
+                                where property.property_id = '$property_id'";
+                                mysqli_query($connection, $query);                                
+
+                                mysqli_query($connection, "delete from property_amenity where property_id = '$property_id'");
+                                foreach($amenities as $amenity){
+                                    mysqli_query($connection, "insert into property_amenity values ('$property_id', '$amenity')");
+                                }
+
+                                header("location:/homehive/admin/viewListedProperties.php?action=edit&property_id=$property_id");
                                 exit;
                             }
                             echo "<p>Failed to update property! Try again later.</p>";
@@ -180,7 +228,10 @@
                         $state = $row["state"];        
                         $city = $row["city"];        
                         $street = $row["street"];        
-                        $postal_code = $row["postal_code"];        
+                        $postal_code = $row["postal_code"];
+
+                        $amenities = get_property_amenities($slug);    
+                        // $amenities = implode(",", $amenity);    
                     }
                     else if( // if the action is add and isset the fields, so the user added new property details and submitted the form
                         $action == "add" &&
@@ -206,11 +257,33 @@
                         $street = cleanInput($_POST["street"]);
                         $postal_code = cleanInput($_POST["postal_code"]);
                         $description = cleanInput($_POST["description"]);
+                        $amenities = $_POST["amenities"];
                        
-                        // $query = "INSERT INTO property () VALUES ('$title')" ...
+                        $query = "INSERT INTO property (title, slug, description) 
+                        VALUES ('$title', '$slug', '$description')";
                         $result = mysqli_query($connection, $query);
 
                         if($result) {
+                            $property_id = mysqli_insert_id($connection);
+
+                            $query = "INSERT INTO address (country, state, city, street, postal_code)
+                            VALUES ('$country', '$state', '$city', '$street', '$postal_code');
+                  
+                            INSERT INTO property (address_id)
+                            VALUES (LAST_INSERT_ID())";
+                            mysqli_query($connection, $query);
+
+                            $query = "INSERT INTO property_type (description)
+                            VALUES ('$type');
+                  
+                            INSERT INTO property (property_type_id)
+                            VALUES (LAST_INSERT_ID())";
+                            mysqli_query($connection, $query);
+
+                            foreach($amenities as $amenity){
+                                mysqli_query($connection, "insert into property_amenity values ('$property_id', '$amenity'");
+                            }
+
                             header("location:/homehive/admin/viewListedProperties.php?action=view");
                             exit;
                         }
@@ -220,7 +293,7 @@
                 <!-- Add Section -->
                 <section class="boxed large-spacing p-50">
                     <h2 class="align-center">Become a Host</h2>
-                    <form class="web-form" action="/homehive/admin/viewListedProperties.php?action=<?=$action?>" method="post" enctype="multipart/form-data">
+                    <form class="web-form" action="/homehive/admin/viewListedProperties.php?action=<?=$action?><?php if($action=="edit") echo "&property_id=$property_id"; ?> " method="post" enctype="multipart/form-data">
                         <fieldset>
                             <legend><h3>Property Information:</h3></legend>
                                 <div class="form-group">
@@ -248,7 +321,7 @@
                                     foreach($types as $category) {
                                         $checked = ($category == $type ? "checked" : "");
                                         $html .= "<div>";
-                                        $html .= "<input type='radio' id='" . strtolower($category) . "' name='property' value='$category' $checked>";
+                                        $html .= "<input type='radio' id='" . strtolower($category) . "' name='type' value='$category' $checked>";
                                         $html .= "<label for='" . strtolower($category) . "'>" . $category . "</label>";
                                         $html .= "</div>";
                                     }
@@ -283,15 +356,28 @@
                                     <label for="description">Description: </label>
                                     <input type="text" id="description" name="description" value="<?=$description?>">
                                 </div>
+                                <div class="">
+                                    <br/>
+                                    <!--
+                                    <label for="amenities">Amenities: 
+                                        <span class="fa-stack tooltip" title="Only comma separated values are accepted. (apple,banana,oranges)">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fas fa-question fa-stack-1x --color-white"></i>
+                                        </span>
+                                    </label> -->
+                                    <?php
+                                    foreach($v_amenities as $amenity){
+                                        $checked = in_array($amenity["amenity_id"],$amenities)?"checked":"";
+                                        echo "<input type='checkbox' name='amenities[]' value='" . $amenity["amenity_id"]  . "' $checked> " . $amenity["description"] . "<br><br>";
+                                    }
+                                    ?>
+                                </div>
                                 <div class="form-group file">
                                     <label for="image">Main Image</label>
                                     <input type="file" id="image" name="image">
                                 </div>
-                                <div class="form-group file">
-                                    <label for="gallery">Image Gallery</label>
-                                    <input type="file" id="gallery" name="gallery[]" multiple>
-                                </div>
-                        </fieldset>                        
+                        </fieldset>    
+                        <div class="error-message"><?=$error;?></div>                    
                         <div>
                             <button class="btn" type="submit">Submit</button>
                             &nbsp;

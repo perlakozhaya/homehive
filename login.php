@@ -1,5 +1,5 @@
-<?php require_once "includes/login.inc.php"; ?>
 <?php require_once "includes/functions.inc.php"; ?>
+<?php require_once "includes/login.inc.php"; ?>
 <?php require_once "includes/db.inc.php"; ?>
 
 <!DOCTYPE html>
