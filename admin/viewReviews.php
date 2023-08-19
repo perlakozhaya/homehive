@@ -12,62 +12,41 @@
                 <section class="boxed p-50 large-spacing">
                     <h2>Reviews</h2>
                     <?php
-                    $html = "";
                     $userId = $_SESSION["user"]["user_id"];
-                    $reviewTable = getReviews($userId);
-                    if($reviewTable === false) {
-                        $html .= "<p>You didn't add any reviews yet.</p>";
+                    $review = show_reviews($userId);
+                    if($review === false) {
+                        echo "<p>You didn't add any reviews yet.</p>";
                     }
-                    else {
-                        $groupedReviews = array();
-                        foreach ($reviewTable as $review) {
-                            $propertyId = $review["property_id"];
-                            if (!isset($groupedReviews[$propertyId])) {
-                                $groupedReviews[$propertyId] = array(
-                                    "property_id" => $propertyId,
-                                    "title" => $review["title"],
-                                    "ratings" => array(),
-                                    "comments" => array()
-                                );
+                    else { ?>
+                        <table class='table-display'>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Rating</th>
+                                    <th>Comment</th>
+                                    <th><i class='fa fa-pen'></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            for($i = 0; $i < count($review); $i++) {
+                                $review_id = $review[$i]["review_id"];
+
+                                $comment = $review[$i]["comment"];
+                                $comment = $comment ? $comment : "-";
+                                echo 
+                                "<tr>
+                                    <td>" . $review[$i]["title"] . "</td>
+                                    <td>" . $review[$i]["rating"] . "</td>
+                                    <td>" . $comment . "</td>
+                                    <td><a href='//localhost/homehive/property/" . $review[$i]["slug"] . "'>Edit</a></td>
+                                </tr>";
                             }
-                            $groupedReviews[$propertyId]["ratings"][] = $review["rating"];
-                            $groupedReviews[$propertyId]["comments"][] = $review["comment"];
-                        }
-
-                        $html .= "<table class='table-display'>";
-                        $html .= "<thead>
-                                    <tr>
-                                        <th>P.N.</th>
-                                        <th>Title</th>
-                                        <th>Ratings</th>
-                                        <th>Comments</th>
-                                        <th><i class='fa fa-pen'></i></th>
-                                        <th><i class='fa fa-delete-left'></i></th>
-                                    </tr>
-                                </thead>";
-                        $html .= "<tbody>";
-
-                        foreach ($groupedReviews as $propertyReview) {
-                            $html .= "<tr>";
-                            $html .= "<td>" . $propertyReview["property_id"] . "</td>";
-                            $html .= "<td>" . $propertyReview["title"] . "</td>";
-                            
-                            $ratings = implode(", ", $propertyReview["ratings"]);
-                            $html .= "<td>" . $ratings . "</td>";
-                            
-                            $comments = implode("<br>", $propertyReview["comments"]);
-                            $html .= "<td>" . $comments . "</td>";
-                            
-                            $html .= "<td><a href='viewTenants.php?action=edit'>Edit</a></td>";
-                            $html .= "<td><a href='viewTenants.php?action=delete'>Delete</a></td>";
-                            $html .= "</tr>";
-                        }
-
-                        $html .= "</tbody>";
-                        $html .= "</table>";
+                            ?>
+                            </tbody>
+                        </table>
+                    <?php
                     }
-
-                    echo $html;
                     ?>
                 </section>
             </main>

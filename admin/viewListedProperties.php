@@ -303,7 +303,7 @@
                 }
                 else if($action == "delete" && isset($_GET["property_id"])) {
                     $property_id = intval($_GET["property_id"]);
-                    // you can create a function to delete a property - btw never delete, update status to -1 or 0 (we call it soft delete in order not to lose data)
+                    // you can create a function to delete a property - never delete, update status to -1 or 0 (we call it soft delete in order not to lose data)
                     if(deleteProperty($property_id)) {
                         echo "<p>Property was successfully deleted.</p>";
                     }

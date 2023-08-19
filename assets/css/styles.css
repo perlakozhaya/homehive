@@ -62,9 +62,10 @@ h4 {
 }
 
 h5 {
-    color: var(--color-primary);
+    color: var(--color-secondary);
     font-size: var(--fs-300);
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 a {
@@ -81,8 +82,9 @@ img {
     max-width: 100%;
 }
 
-button {
+button, input[type="submit"] {
     cursor: pointer;
+    border: none;
 }
 
 i {
@@ -201,6 +203,19 @@ legend {
 
 .--color-white {
     color: var(--color-bg);
+}
+
+.btn {
+    color: var(--color-secondary);
+    background-color: var(--color-accent);
+    padding: 0.5em 1em;
+    font: inherit;
+    border-radius: 20px;
+    transition: background-color 0.4s;
+}
+.btn:hover {
+    color: var(--color-secondary);
+    background-color: var(--color-primary);
 }
 
 .hf-block {
@@ -589,4 +604,54 @@ span.req-symbol {
     width: 40px;
     padding-bottom: 40px;
     border-radius: 0px;
+}
+
+/* Single Property */
+.info-bar {
+    background-color: var(--color-accent);
+    padding: 1em;
+}
+
+.single-property .flex {
+    column-gap: 3em;
+}
+
+.single-property .p-image-container {
+    padding-bottom: 50%;
+}
+
+.p-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#save-button, #save-message {
+    color: #db0d0d;
+}
+
+.web-form.review-form input[type="number"]{
+    font: inherit;
+    color: inherit;
+    padding: .5em;
+    border-radius: 20px;
+    border: 1px solid var(--color-text);
+}
+
+.review-item.flex {
+    padding: 20px 0;
+    gap: 0;
+    align-items: center;
+}
+.review-item.flex >:first-child {
+    flex: 0.4;
+}
+@media only screen and (max-width: 600px) {
+    .review-item.flex {
+        align-items: start;
+    }
+}
+
+.op-image.p-image-container {
+    width: 40px;
+    padding-bottom: 40px;
 }

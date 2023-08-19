@@ -1,5 +1,4 @@
 <?php
-session_set_cookie_params(3600); // Set cookie to last 1 hour
 session_start();
 function cleanInput($input) {
         $input = stripslashes($input);
@@ -257,19 +256,6 @@ function get_property_id_by_type($category) {
     return $propertyIds;
 }
 
-function get_title_by_slug($slug) {
-    global $connection;
-    $query = "SELECT title
-    FROM property
-    WHERE slug = '$slug'";
-    $result = mysqli_query($connection, $query);
-    if(!$result) {
-        return false;
-    }
-    $row = mysqli_fetch_assoc($result);
-    return $row['title'];
-}
-
 function get_latest_properties($limit = 4) {
     global $connection;
     $query = "SELECT property_id
@@ -312,18 +298,108 @@ function get_popular_properties($limit = 4) {
 
 function get_property_details($slug) {
     global $connection;
-    $query = "SELECT P.*, A.*, PT.description as type, U.name, U.email, U.phone
+    $query = "SELECT P.*, A.*, PT.description as type, U.name as host, U.email, U.phone, M.file_name, M.description as alt
     FROM property P
     INNER JOIN address A ON P.address_id = A.address_id
     INNER JOIN property_type PT ON P.property_type_id = PT.property_type_id
     INNER JOIN user U ON P.user_id = U.user_id
+    LEFT JOIN media M ON P.media_id = M.media_id
     WHERE P.slug = '$slug'";
     $result = mysqli_query($connection, $query);
-    if(mysqli_num_rows($result) == 0) {
+    if(!$result) {
         return false;
     }
-    $details[] = mysqli_fetch_assoc($result);
+    $row = mysqli_fetch_assoc($result);
+    $details = array (
+    "property_id" => $row["property_id"],
+    "title" => $row["title"],
+    "num_bedrooms" => $row["num_bedrooms"],
+    "num_bathrooms" => $row["num_bathrooms"],
+    "size" => $row["size"],
+    "max_occupancy" => $row["max_occupancy"],
+    "price_per_night" => $row["price_per_night"],
+    "description" => $row["description"],
+    "listed_on" => $row["listed_on"],
+    "status" => $row["status"],
+    "country" => $row["country"],
+    "state" => $row["state"],
+    "city" => $row["city"],
+    "street" => $row["street"],
+    "type" => $row["type"],
+    "host" => $row["host"],
+    "email" => $row["email"],
+    "phone" => $row["phone"],
+    "file_name" => $row["file_name"],
+    "alt" => $row["alt"],
+    "favorites" => array()
+    );
+
+    if(isset($_SESSION["user"])){
+        $query = "select property_id from favorites where user_id = '".$_SESSION["user"]["user_id"]."'";
+        $result = mysqli_query($connection, $query);
+        while($row = mysqli_fetch_array($result)){
+            array_push($details["favorites"], $row["property_id"]);
+        }
+    }
+
     return $details;
+}
+
+function get_property_amenities($slug) {
+    global $connection;
+    $query = "SELECT Am.description as amenity
+    FROM amenity Am
+    INNER JOIN property_amenity PA ON Am.amenity_id = PA.amenity_id
+    INNER JOIN property P ON P.property_id = PA.property_id
+    WHERE P.slug = '$slug'";
+    $result = mysqli_query($connection, $query);
+    if(mysqli_num_rows($result) === 0) {
+        return false;
+    }
+    while($row = mysqli_fetch_row($result)) {
+        $amenities[] = $row[0];
+    }
+    return $amenities;
+}
+
+function get_property_reviews($slug) {
+    global $connection;
+    $query = "SELECT R.rating, R.comment, R.user_id, U.name, U.email, UM.file_name
+    FROM review R
+    INNER JOIN user U ON R.user_id = U.user_id
+    INNER JOIN (SELECT RA.property_id, RA.rent_agreement_id
+                FROM rent_agreement RA 
+                INNER JOIN property P ON RA.property_id = P.property_id
+                WHERE P.slug = '$slug') AS rent ON rent.rent_agreement_id = R.rent_agreement_id
+	LEFT JOIN media UM ON U.media_id = UM.media_id";
+    $result = mysqli_query($connection, $query);
+    if(mysqli_num_rows($result) === 0) {
+        return false;
+    }
+    while($row = mysqli_fetch_assoc($result)) {
+        $reviews[] = $row;
+    }
+    return $reviews;
+}
+
+function show_reviews($user_id) {
+    global $connection;
+    $query = "SELECT R.review_id, R.rating, R.comment, RA.rent_agreement_id, P.title, P.slug
+    FROM review R
+    RIGHT JOIN rent_agreement RA ON R.rent_agreement_id = RA.rent_agreement_id
+    INNER JOIN property P ON RA.property_id = P.property_id
+    WHERE RA.user_id = $user_id 
+    AND	RA.status = 'completed'";
+
+    $result = mysqli_query($connection, $query);
+    if (mysqli_num_rows($result) == 0) {
+        return false;
+    } else {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $review[] = $row;
+        }
+    }
+    return $review;
 }
 
 function show_listed_properties($userId){
@@ -344,18 +420,23 @@ function show_listed_properties($userId){
 
 function show_rented_properties($userId){
     global $connection;
-    $query = "SELECT property_id 
-    FROM rent_agreement 
-    WHERE user_id = $userId";
+    $query = "SELECT RA.*, R1.file_name, P.title, P.slug
+    FROM rent_agreement RA
+    INNER JOIN property P ON RA.property_id = P.property_id
+    LEFT JOIN 
+        (SELECT M.file_name, P.property_id
+        FROM media M 
+        INNER JOIN property P ON P.media_id = M.media_id) AS R1 ON RA.property_id = R1.property_id
+    WHERE RA.user_id = $userId";
 
     $result = mysqli_query($connection, $query);
     if (mysqli_num_rows($result) == 0){
         return false;
     } 
     while ($row = mysqli_fetch_assoc($result)){
-        $propertyIds[] = $row['property_id'];
+        $rent_agreement[] = $row;
     }
-    return $propertyIds;
+    return $rent_agreement;
 }
 
 function getTenantIds($userId) {
@@ -395,39 +476,26 @@ function getSavedProperties($userId) {
     return $propertyIds;
 }
 
-function getReviews($userId) {
-    global $connection;
-    $query = "SELECT P.property_id, P.title, R.rating, R.comment
-    FROM property P
-    INNER JOIN rent_agreement RA ON P.property_id = RA.property_id
-    INNER JOIN (
-        SELECT ra.property_id, r.rating, r.comment
-        FROM review r
-        INNER JOIN rent_agreement ra ON r.rent_agreement_id = ra.rent_agreement_id 
-        WHERE r.user_id = '$userId'
-    ) R ON P.property_id = R.property_id;";
-
-    $result = mysqli_query($connection, $query);
-    if (mysqli_num_rows($result) == 0) {
-        return false;
-    } else {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $reviewTable[] = array (
-            "property_id" => $row["property_id"],
-            "title" => $row["title"],
-            "rating" => $row["rating"],
-            "comment" => $row["comment"]
-            );
-        }
-    }
-    return $reviewTable;
-}
-
 function deleteProperty($propertyId) {
     global $connection;
     $query = "UPDATE property
     SET status = '-1'
     WHERE property_id = $propertyId";
     return $result = mysqli_query($connection, $query);
+}
+
+function display_review($user_id, $property_id) {
+    global $connection;
+    $query = "SELECT R.review_id, R.rating, R.comment, RA.rent_agreement_id
+    FROM review R
+    RIGHT JOIN rent_agreement RA ON R.rent_agreement_id = RA.rent_agreement_id
+    WHERE RA.user_id = $user_id 
+    AND RA.property_id = $property_id 
+    AND RA.status = 'completed'";
+    $result = mysqli_query($connection, $query);
+    if(mysqli_num_rows($result) === 0) {
+        return false; // user is not a tenant in this property, or status not completed
+    }
+    return $row = mysqli_fetch_assoc($result); // returns an array consisting of the review table's columns
 }
 ?>

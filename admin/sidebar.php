@@ -21,10 +21,6 @@
     </div>
     <nav class="side-nav">
         <a href="javascript:void(0)" class="close-btn" onclick="closeNav()"><i class="fa fa-close"></i></a>
-        <a href="dashboard.php" class="flex">
-            <i class="fa fa-home"></i>
-            <p>Dashboard</p>
-        </a>
         <a href="viewListedProperties.php" class="flex fixed-content">
             <i class="fa fa-th-list"></i>
             <p>Listed Properties</p>
