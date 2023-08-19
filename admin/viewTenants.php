@@ -32,8 +32,6 @@
                                     <th>Total Amount</th>
                                     <th>Amount Paid</th>
                                     <th>Amount Due</th>
-                                    <th><i class="fa fa-pen"></i></th>
-                                    <th><i class="fa fa-delete-left"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,8 +61,6 @@
                                     <td><?=$row["total_amount"]?></td>
                                     <td><?=$row["amount_paid"]?></td>
                                     <td><?=$row["amount_due"]?></td>
-                                    <td><a href="viewTenants.php?action=edit">Edit</a></td>
-                                    <td><a href="viewTenants.php?action=delete">Delete</a></td>
                                 </tr>
                                     <?php
                                     }
@@ -72,10 +68,6 @@
                                 ?>
                             </tbody>
                         </table>
-                        <a href="viewTenants.php?action=add">
-                            <i class="fa fa-plus" style="color: var(--color-primary);"></i>
-                            <span>Add</span>
-                        </a>
                     <?php
                         }
                     echo $html;
