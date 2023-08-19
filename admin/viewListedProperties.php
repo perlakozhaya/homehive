@@ -151,15 +151,14 @@
                             if(isset($_FILES["image"]) &&
                             $_FILES["image"]["error"] == 0 &&
                             $_FILES["image"]["size"] > 0 &&
-                            $_FILES["image"]["type"] == "image/jpeg" &&
-                            isset($_POST["image"]) && !empty($_POST["image"])
+                            $_FILES["image"]["type"] == "image/jpeg"
                             ) {
                                 $file_name .= strtolower(str_replace(" ", "-", $_FILES["image"]["name"]));
                                 $directory = "/homehive/assets/img/uploads/";
                                 if (!is_dir($directory)) {
                                     mkdir($directory, 0777, true);
                                 }
-                                $file_path = $directory . "/" . $file_name . "." . getExtension($_FILES["image"]["name"]);
+                                $file_path = $directory . "/" . $file_name;
 
                                 if(move_uploaded_file($_FILES["image"]["tmp_name"], $file_path)) {
                                     $error .= "File uploaded successfully!";
@@ -190,14 +189,15 @@
     
                                 $query = "UPDATE property_type 
                                 INNER JOIN property ON property_type.property_type_id = property.property_type_id
-                                SET description = '$type'
-                                where property.property_id = '$property_id' ";
+                                SET property_type.description = '$type'
+                                WHERE property.property_id = '$property_id' ";
                                 mysqli_query($connection, $query);    
 
                                 $query = "UPDATE media 
                                 INNER JOIN property ON media.media_id = property.media_id
-                                SET file_name = '$file_name'
-                                where property.property_id = '$property_id'";
+                                SET media.file_name = '$file_name',
+                                    media.media_type = 'image'
+                                WHERE property.property_id = '$property_id'";
                                 mysqli_query($connection, $query);                                
 
                                 mysqli_query($connection, "delete from property_amenity where property_id = '$property_id'");
@@ -258,6 +258,27 @@
                         $postal_code = cleanInput($_POST["postal_code"]);
                         $description = cleanInput($_POST["description"]);
                         $amenities = $_POST["amenities"];
+
+                        $file_name = "";
+                        if(isset($_FILES["image"]) &&
+                        $_FILES["image"]["error"] == 0 &&
+                        $_FILES["image"]["size"] > 0 &&
+                        $_FILES["image"]["type"] == "image/jpeg"
+                        ) {
+                            $file_name .= strtolower(str_replace(" ", "-", $_FILES["image"]["name"]));
+                            $directory = "/homehive/assets/img/uploads/";
+                            if (!is_dir($directory)) {
+                                mkdir($directory, 0777, true);
+                            }
+                            $file_path = $directory . "/" . $file_name;
+
+                            if(move_uploaded_file($_FILES["image"]["tmp_name"], $file_path)) {
+                                $error .= "File uploaded successfully!";
+                            }
+                            else {
+                                echo "Failed to move file";
+                            }
+                        }
                        
                         $query = "INSERT INTO property (title, slug, description) 
                         VALUES ('$title', '$slug', '$description')";
@@ -270,14 +291,24 @@
                             VALUES ('$country', '$state', '$city', '$street', '$postal_code');
                   
                             INSERT INTO property (address_id)
-                            VALUES (LAST_INSERT_ID())";
+                            VALUES (LAST_INSERT_ID())
+                            WHERE property_id = '$property_id'";
                             mysqli_query($connection, $query);
 
                             $query = "INSERT INTO property_type (description)
                             VALUES ('$type');
                   
                             INSERT INTO property (property_type_id)
-                            VALUES (LAST_INSERT_ID())";
+                            VALUES (LAST_INSERT_ID())
+                            WHERE property_id = '$property_id'";
+                            mysqli_query($connection, $query);
+
+                            $query = "INSERT INTO media (file_name, media_type)
+                            VALUES ('$file_name', 'image');
+                  
+                            INSERT INTO property (media_id)
+                            VALUES (LAST_INSERT_ID())
+                            WHERE property_id = '$property_id'";
                             mysqli_query($connection, $query);
 
                             foreach($amenities as $amenity){
