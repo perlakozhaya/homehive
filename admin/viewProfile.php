@@ -6,59 +6,54 @@
     $error = "";
     ?>
 <?php
+var_dump($_POST);
     if (isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['email']) && !empty($_POST['email'])){
         $name = cleanInput($_POST['name']);
         $email = cleanInput($_POST['email']);
         $phone = cleanInput($_POST['phone']);
         
         $query = "UPDATE user
-            SET name = '$name', email = '$email', phone = '$phone'
-            WHERE user_id = $user_id";
-            $result = mysqli_query($connection, $query);
-            if(!$result) {
-                echo "Failed to update in database";
-            }
+        SET name = '$name', email = '$email', phone = '$phone'
+        WHERE user_id = $user_id";
+        $result = mysqli_query($connection, $query);
+        if(!$result) {
+            echo "Failed to update in database";
+        }
 
         $_SESSION["user"]["name"] = $name;
         $_SESSION["user"]["email"] = $email;
         $_SESSION["user"]["phone"] = $phone;
 
-        if (
-            isset($_POST['old_pass']) && !empty($_POST['old_pass']) &&
+        if (isset($_POST['old_pass']) && !empty($_POST['old_pass']) &&
             isset($_POST['new_pass']) && !empty($_POST['new_pass']) &&
-            isset($_POST['confirm_pass']) && !empty($_POST['confirm_pass'])
-        ) 
+            isset($_POST['confirm_pass']) && !empty($_POST['confirm_pass'])) 
         {
-            // Update Password 
-            if(checkPasswordMismatch(($_POST['new_pass']), ($_POST['confirm_pass']))) 
-            {
-                $old_pass = cleanInput($_POST['old_pass']);
-                $new_pass = cleanInput($_POST['new_pass']);
-                $confirm_pass = cleanInput($_POST['confirm_pass']);
-        
-                $old_pass = MD5($old_pass);
-                $new_pass = MD5($new_pass);
-        
-                $query = "SELECT password
-                    FROM user
-                    WHERE user_id = $user_id
-                    AND password = '$old_pass'";
-                $result = mysqli_query($connection, $query);
-                if(mysqli_num_rows($result) > 0) {
+            $old_pass = cleanInput($_POST['old_pass']);
+            $new_pass = cleanInput($_POST['new_pass']);
+            $confirm_pass = cleanInput($_POST['confirm_pass']);
+
+            $query = "SELECT password
+            FROM user
+            WHERE user_id = $user_id";
+            $result = mysqli_query($connection, $query);
+
+            if (mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_assoc($result);
+                $hashed_old_pass = $row['password'];
+               
+                if ($hashed_old_pass === MD5($old_pass)) {
+                    $new_hashed_pass = MD5($new_pass);
                     $query = "UPDATE user
-                    SET password = '$new_pass'
+                    SET password = '$new_hashed_pass'
                     WHERE user_id = '$user_id'";
                     $result = mysqli_query($connection, $query);
-                    if(!$result) {
+                    if (!$result) {
                         echo "Failed to update in database";
                     }
                 }
-            }        
+            }
         }
     }    
-    else {
-        $error = "There are required fields that are empty!";
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,11 +115,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="password">New Password</label>
-                                <input type="password" name="new_pass" id="password" value="lI3@!&uTZC9%@Z2">
+                                <input type="password" name="new_pass" id="password">
                             </div>
                             <div class="form-group">
                                 <label for="confirm-password">Confirm Password</label>
-                                <input type="password" name="confirm_pass" id="confirm-password" value="lI3@!&uTZC9%@Z2">
+                                <input type="password" name="confirm_pass" id="confirm-password">
                                 <div id="error-message" class="error-message"></div>
                             </div>
                         </fieldset>
