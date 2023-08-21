@@ -1,12 +1,11 @@
 <?php require_once("../includes/functions.inc.php"); ?>
 <?php require_once("../includes/db.inc.php"); ?>
 <?php $pageTitle = "Edit Profile"; ?>
-<?php if(isset($_SESSION["user"])) { 
+<?php 
+if(isset($_SESSION["user"])) { 
     $user_id = $_SESSION['user']['user_id'];
-    $error = "";
-    ?>
+?>
 <?php
-var_dump($_POST);
     if (isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['email']) && !empty($_POST['email'])){
         $name = cleanInput($_POST['name']);
         $email = cleanInput($_POST['email']);
@@ -51,6 +50,51 @@ var_dump($_POST);
                         echo "Failed to update in database";
                     }
                 }
+            }
+        }
+
+        if (isset($_FILES["image"]) && $_FILES["image"]["size"] > 0 &&
+            $_FILES["image"]["error"] == 0 && $_FILES["image"]["type"] == "image/jpeg"
+        ) {
+            $file_name = strtolower(str_replace(" ", "", $_FILES["image"]["name"]));
+            $dir = "C:/xampp/htdocs/homehive/assets/img/uploads";
+
+            if(!file_exists($dir)) {
+                mkdir($dir, 0777, true);
+            }
+
+            $full_path = $dir . "/" . $file_name;
+
+            if(move_uploaded_file($_FILES["image"]["tmp_name"], $full_path)) {
+                $query = "SELECT media_id
+                FROM user
+                WHERE user_id = $user_id";
+                $result = mysqli_query($connection, $query);
+                $row = mysqli_fetch_assoc($result);
+                
+                if(mysqli_num_rows($result) === 0 || $row["media_id"] === NULL) {
+                    // Insert new media entry
+                    $query = "INSERT INTO media (file_name, media_type) VALUES ('$file_name', 'image')";
+                    mysqli_query($connection, $query);
+
+                    // Get the generated media_id
+                    $media_id = mysqli_insert_id($connection);
+
+                    // Update user with media_id
+                    $query = "UPDATE user SET media_id = $media_id WHERE user_id = $user_id";
+                    mysqli_query($connection, $query);
+                }
+                else {
+                    $query = "UPDATE media 
+                    INNER JOIN user ON media.media_id = user.media_id
+                    SET media.file_name = '$file_name',
+                    media.media_type = 'image'
+                    WHERE user.user_id = $user_id";
+                    $result = mysqli_query($connection, $query);
+                }
+            }
+            else {
+                echo "Failed to upload new image. Try again later.";
             }
         }
     }    
@@ -101,17 +145,17 @@ var_dump($_POST);
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address<span class="req-symbol">*</label>
-                            <input type="email" name="email" id="email" required value=<?php echo $_SESSION["user"]["email"]; ?>>
+                            <input type="email" name="email" id="email" required value="<?php echo $_SESSION["user"]["email"]; ?>">
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input type="text" name="phone" id="phone" value=<?php echo $_SESSION["user"]["phone"]; ?>>
+                            <input type="text" name="phone" id="phone" value="<?php echo $_SESSION["user"]["phone"]; ?>">
                         </div>
                         <fieldset>
                             <legend><h4>Password Change</h4></legend>
                             <div class="form-group">
                                 <label for="old_pass">Current Password</label>
-                                <input type="password" name="old_pass" id="old_pass" value="lI3@!&uTZC9%@Z">
+                                <input type="password" name="old_pass" id="old_pass">
                             </div>
                             <div class="form-group">
                                 <label for="password">New Password</label>
@@ -123,7 +167,10 @@ var_dump($_POST);
                                 <div id="error-message" class="error-message"></div>
                             </div>
                         </fieldset>
-                        <div class="error-message"><?=$error;?></div>
+                        <div class="form-group file">
+                            <label for="image">Add new profile image</label>
+                            <input type="file" name="image" id="image">
+                        </div>
                         <div>
                             <button type="submit" name="submit" class="btn" id="submit-button">Save Changes</button>
                         </div>
