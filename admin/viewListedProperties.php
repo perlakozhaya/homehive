@@ -48,11 +48,11 @@
                                 INNER JOIN property_type PT ON P.property_type_id = PT.property_type_id
                                 INNER JOIN address A ON P.address_id = A.address_id
                                 LEFT JOIN media M ON M.media_id = P.media_id
-                                WHERE P.property_id IN (" . implode(",", $propertyIds) . ")
+                                -- WHERE P.property_id IN (" . implode(",", $propertyIds) . ")
+                                WHERE P.user_id = '$userId' 
                                 AND P.status != '-1'";
 
                                 $result = mysqli_query($connection, $query);
-                                
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
                                 ?>
@@ -146,37 +146,13 @@
                             $description = cleanInput($_POST["description"]);
                             $amenities = $_POST["amenities"];
                             
-                            // Image Validation
-                            $file_name = "";
-                            if(isset($_FILES["image"]) &&
-                            $_FILES["image"]["error"] == 0 &&
-                            $_FILES["image"]["size"] > 0 &&
-                            $_FILES["image"]["type"] == "image/jpeg"
-                            ) {
-                                $file_name .= strtolower(str_replace(" ", "-", $_FILES["image"]["name"]));
-                                $directory = "/homehive/assets/img/uploads/";
-                                if (!is_dir($directory)) {
-                                    mkdir($directory, 0777, true);
-                                }
-                                $file_path = $directory . "/" . $file_name;
-
-                                if(move_uploaded_file($_FILES["image"]["tmp_name"], $file_path)) {
-                                    $error .= "File uploaded successfully!";
-                                }
-                                else {
-                                    echo "Failed to move file";
-                                }
-                            }
                             $query = "UPDATE property SET 
                             title = '$title',
                             slug = '$slug',
                             description = '$description'
                             WHERE property_id = '$property_id'";
-
                             $result = mysqli_query($connection, $query);
-
                             if($result) {
-
                                 $query = "UPDATE address
                                 INNER JOIN property ON address.address_id = property.address_id
                                 SET address.country = '$country',
@@ -193,12 +169,40 @@
                                 WHERE property.property_id = '$property_id' ";
                                 mysqli_query($connection, $query);    
 
-                                $query = "UPDATE media 
-                                INNER JOIN property ON media.media_id = property.media_id
-                                SET media.file_name = '$file_name',
-                                    media.media_type = 'image'
-                                WHERE property.property_id = '$property_id'";
-                                mysqli_query($connection, $query);                                
+                                // Image Validation
+                                if(isset($_FILES["image"]) && $_FILES["image"]["size"] > 0 &&
+                                $_FILES["image"]["error"] == 0 && $_FILES["image"]["type"] == "image/jpeg"
+                                ) {
+                                    $file_name = strtolower(str_replace(" ", "-", $_FILES["image"]["name"]));
+                                    $directory = "C:/xampp/htdocs/homehive/assets/img/uploads";
+                                    if (!is_dir($directory)) {
+                                        mkdir($directory, 0777, true);
+                                    }
+                                    $file_path = $directory . "/" . $file_name;
+
+                                    if(move_uploaded_file($_FILES["image"]["tmp_name"], $file_path)) {
+                                        $result = mysqli_query($connection, "SELECT media_id FROM property WHERE property_id = $property_id");
+                                        $row = mysqli_fetch_assoc($result);
+                                        
+                                        if($row["media_id"] === NULL) {
+                                            $query = "INSERT INTO media (file_name, media_type) VALUES ('$file_name', 'image')";
+                                            mysqli_query($connection, $query);
+
+                                            $media_id = mysqli_insert_id($connection);
+
+                                            $query = "UPDATE property SET media_id = $media_id WHERE property_id = $property_id";
+                                            mysqli_query($connection, $query);
+                                        }
+                                        else {
+                                            $query = "UPDATE media 
+                                            INNER JOIN property ON media.media_id = property.media_id
+                                            SET media.file_name = '$file_name',
+                                            media.media_type = 'image'
+                                            WHERE property.property_id = $property_id";
+                                            $result = mysqli_query($connection, $query);
+                                        }
+                                    }
+                                }                                
 
                                 mysqli_query($connection, "delete from property_amenity where property_id = '$property_id'");
                                 foreach($amenities as $amenity){
@@ -231,7 +235,6 @@
                         $postal_code = $row["postal_code"];
 
                         $amenities = get_property_amenities($slug);    
-                        // $amenities = implode(",", $amenity);    
                     }
                     else if( // if the action is add and isset the fields, so the user added new property details and submitted the form
                         $action == "add" &&
@@ -239,11 +242,11 @@
                         isset($_POST["slug"]) && !empty($_POST["slug"]) &&
                         isset($_POST["type"]) && !empty($_POST["type"]) &&
                         isset($_POST["country"]) && !empty($_POST["country"]) &&
-                        isset($_POST["state"]) && !empty($_POST["state"]) &&
+                        // isset($_POST["state"]) && !empty($_POST["state"]) &&
                         isset($_POST["city"]) && !empty($_POST["city"]) &&
-                        isset($_POST["street"]) && !empty($_POST["street"]) &&
-                        isset($_POST["postal_code"]) && !empty($_POST["postal_code"]) &&
-                        isset($_POST["description"]) && !empty($_POST["description"])
+                        isset($_POST["street"]) && !empty($_POST["street"])
+                        // isset($_POST["postal_code"]) && !empty($_POST["postal_code"]) &&
+                        // isset($_POST["description"]) && !empty($_POST["description"])
                     ) {
                         $slug = cleanInput($_POST["slug"]);
                         $slug = strtolower(str_replace(' ', '-', $slug));
@@ -258,67 +261,51 @@
                         $postal_code = cleanInput($_POST["postal_code"]);
                         $description = cleanInput($_POST["description"]);
                         $amenities = $_POST["amenities"];
-
-                        $file_name = "";
-                        if(isset($_FILES["image"]) &&
-                        $_FILES["image"]["error"] == 0 &&
-                        $_FILES["image"]["size"] > 0 &&
-                        $_FILES["image"]["type"] == "image/jpeg"
-                        ) {
-                            $file_name .= strtolower(str_replace(" ", "-", $_FILES["image"]["name"]));
-                            $directory = "/homehive/assets/img/uploads/";
-                            if (!is_dir($directory)) {
-                                mkdir($directory, 0777, true);
-                            }
-                            $file_path = $directory . "/" . $file_name;
-
-                            if(move_uploaded_file($_FILES["image"]["tmp_name"], $file_path)) {
-                                $error .= "File uploaded successfully!";
-                            }
-                            else {
-                                echo "Failed to move file";
-                            }
-                        }
                        
-                        $query = "INSERT INTO property (title, slug, description) 
-                        VALUES ('$title', '$slug', '$description')";
-                        $result = mysqli_query($connection, $query);
+                        // if($result) {
+                            // $property_id = mysqli_insert_id($connection);
+                            
+                            $query = "INSERT INTO address (country, state, city, street, postal_code)
+                            VALUES ('$country', '$state', '$city', '$street', '$postal_code')";
+                            mysqli_query($connection, $query);
+                            $address_id = mysqli_insert_id($connection);
+                            // mysqli_query($connection, "INSERT INTO property (address_id) VALUES $address_id WHERE property_id = '$property_id'");
+                            
+                            $query = "INSERT INTO property_type (description) VALUES ('$type')";
+                            mysqli_query($connection, $query);
+                            $property_type_id = mysqli_insert_id($connection);
+                            // $query = "INSERT INTO property (property_type_id)
+                            // VALUES $property_type_id
+                            // WHERE property_id = '$property_id'";
 
-                        if($result) {
+                            $query = "INSERT INTO property (title, slug, description, address_id, property_type_id, user_id, status) 
+                            VALUES ('$title', '$slug', '$description', '$address_id', '$property_type_id', '$userId', 'Available')";
+                            mysqli_query($connection, $query);
                             $property_id = mysqli_insert_id($connection);
 
-                            $query = "INSERT INTO address (country, state, city, street, postal_code)
-                            VALUES ('$country', '$state', '$city', '$street', '$postal_code');
-                  
-                            INSERT INTO property (address_id)
-                            VALUES (LAST_INSERT_ID())
-                            WHERE property_id = '$property_id'";
-                            mysqli_query($connection, $query);
+                            if(isset($_FILES["image"]) && $_FILES["image"]["size"] > 0 &&
+                            $_FILES["image"]["error"] == 0 && $_FILES["image"]["type"] == "image/jpeg"
+                            ) {
+                                $file_name = strtolower(str_replace(" ", "-", $_FILES["image"]["name"]));
+                                $directory = "C:/xampp/htdocs/homehive/assets/img/uploads";
+                                if (!is_dir($directory)) {
+                                    mkdir($directory, 0777, true);
+                                }
+                                $file_path = $directory . "/" . $file_name;
 
-                            $query = "INSERT INTO property_type (description)
-                            VALUES ('$type');
-                  
-                            INSERT INTO property (property_type_id)
-                            VALUES (LAST_INSERT_ID())
-                            WHERE property_id = '$property_id'";
-                            mysqli_query($connection, $query);
-
-                            $query = "INSERT INTO media (file_name, media_type)
-                            VALUES ('$file_name', 'image');
-                  
-                            INSERT INTO property (media_id)
-                            VALUES (LAST_INSERT_ID())
-                            WHERE property_id = '$property_id'";
-                            mysqli_query($connection, $query);
-
+                                if(move_uploaded_file($_FILES["image"]["tmp_name"], $file_path)) {
+                                    mysqli_query($connection, "INSERT INTO media (file_name, media_type) VALUES ('$file_name', 'image')");
+                                    $media_id = mysqli_insert_id($connection);
+                                    mysqli_query($connection, "UPDATE property SET media_id = $media_id WHERE property_id = $property_id");
+                                }
+                            }
                             foreach($amenities as $amenity){
-                                mysqli_query($connection, "insert into property_amenity values ('$property_id', '$amenity'");
+                                mysqli_query($connection, "insert into property_amenity values ('$property_id', '$amenity')");
                             }
 
                             header("location:/homehive/admin/viewListedProperties.php?action=view");
                             exit;
-                        }
-                        echo "<p>Failed to add new property! Try again later.</p>";
+                        // }
                     }
                 ?>
                 <!-- Add Section -->
@@ -387,15 +374,8 @@
                                     <label for="description">Description: </label>
                                     <input type="text" id="description" name="description" value="<?=$description?>">
                                 </div>
-                                <div class="">
+                                <div>
                                     <br/>
-                                    <!--
-                                    <label for="amenities">Amenities: 
-                                        <span class="fa-stack tooltip" title="Only comma separated values are accepted. (apple,banana,oranges)">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fas fa-question fa-stack-1x --color-white"></i>
-                                        </span>
-                                    </label> -->
                                     <?php
                                     foreach($v_amenities as $amenity){
                                         $checked = in_array($amenity["amenity_id"],$amenities)?"checked":"";

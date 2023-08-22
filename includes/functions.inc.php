@@ -372,18 +372,19 @@ function get_amenities()
 
 function get_property_amenities($slug) {
     global $connection;
-    $query = "SELECT Am.amenity_id as amenity
+    $query = "SELECT Am.amenity_id, Am.description
     FROM amenity Am
     INNER JOIN property_amenity PA ON Am.amenity_id = PA.amenity_id
     INNER JOIN property P ON P.property_id = PA.property_id
     WHERE P.slug = '$slug'";
     $result = mysqli_query($connection, $query);
-    if(mysqli_num_rows($result) === 0) {
-        return false;
+    
+    $amenities = array(); // Initialize an empty array
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $amenities[$row['description']] = $row['amenity_id'];
     }
-    while($row = mysqli_fetch_row($result)) {
-        $amenities[] = $row[0];
-    }
+
     return $amenities;
 }
 
